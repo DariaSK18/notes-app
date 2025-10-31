@@ -2,6 +2,20 @@
 // const os = require('os')
 // let res = os.platform()
 // console.log(res);
+// const https = require('https')
+// const fs = require('fs')
+
+// const server = https.createServer((req, res) => {
+//     res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'})
+//     const stream = fs.createReadStream('index.ejs')
+//     stream.pipe(res)
+//     // res.end()
+// })
+
+// server.listen(PORT, HOST, () => {
+//     console.log(`Server is running: https://${HOST}:${PORT}`);
+    
+// })
 
 const express = require('express')
 const app = express()
@@ -10,11 +24,18 @@ app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
 app.get('/', (req, res) => {
-    render('index')
+    res.render('index', {title: 'Home'})
 })
 app.get('/login', (req, res) => {
-    render('login')
+    res.render('login', {title: 'Login'})
 })
 app.get('/register', (req, res) => {
-    render('register')
+    res.render('register', {title: 'Register'})
+})
+
+const PORT = 3000
+const HOST = 'localhost'
+
+app.listen(PORT, () => {
+    console.log(`Server is running: http://${HOST}:${PORT}`);
 })
