@@ -17,7 +17,8 @@
     
 // })
 
-const express = require('express')
+import express from "express"
+// const express = require('express')
 const app = express()
 
 app.set('view engine', 'ejs')
@@ -41,9 +42,9 @@ app.post('/register', (req, res) => {
     else return res.redirect('/')
 })
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 const HOST = 'localhost'
 
 app.listen(PORT, () => {
-    console.log(`Server is running: http://${HOST}:${PORT}`);
+    console.log(`Running on Port: ${PORT}\n http://${HOST}:${PORT}`);
 })
