@@ -18,58 +18,54 @@
 // })
 
 import express, { response } from "express";
+import { users, notes } from "./constants.mjs";
+
 // const express = require('express')
 const app = express();
-
-const users = [
-  {
-    id: crypto.randomUUID(),
-    userName: "Daria",
-    displayName: "DariaSK",
-  },
-  {
-    id: crypto.randomUUID(),
-    userName: "Vlad",
-    displayName: "Vlad_1337",
-  },
-  {
-    id: crypto.randomUUID(),
-    userName: "Olga",
-    displayName: "Olala",
-  },
-];
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => {
-  res.render("index", { title: "Home" });
+app.get("/", (request, response) => {
+  response.render("index", { title: "Home" });
 });
-app.get("/login", (req, res) => {
-  res.render("login", { title: "Login" });
+app.get("/login", (request, response) => {
+  response.render("login", { title: "Login" });
 });
-app.get("/register", (req, res) => {
-  res.render("register", { title: "Register" });
+app.get("/register", (request, response) => {
+  response.render("register", { title: "Register" });
 });
-app.get("/api/users", (req, res) => {
-  res.send(users);
+app.get("/api/users", (request, response) => {
+  response.send(users);
 });
-app.get("/api/users/:id", (req, res) => {
-  const userId = req.params.id;
-//   if(!userId) return res.status(400).send({msg: 'Bad request. Invalid ID.'})
+app.get("/api/users/:id", (request, response) => {
+  const userId = request.params.id;
+  //   if(!userId) return res.status(400).send({msg: 'Bad request. Invalid ID.'})
   // .send({msg: 'Bad request. Invalid ID.'})
   const foundUser = users.find((user) => user.id === userId);
-  if (!foundUser) return res.sendStatus(404);
+  if (!foundUser) return response.sendStatus(404);
   console.log("foundUser", foundUser);
-  res.send(foundUser);
+  response.send(foundUser);
 });
 
-app.post("/register", (req, res) => {
-  const test = req.body.test;
-  console.log(req.body, req.body.test);
-  if (test === "") return res.redirect("login");
-  else return res.redirect("/");
+app.get("/notes", (request, response) => {
+  response.send(notes);
+});
+app.get("/notes/:id", (request, response) => {
+  const parsedId = parseInt(request.params.id);
+  if (isNaN(parsedId))
+    return response.status(400).send({ msg: "Bad request. Invalid ID." });
+  const foundNote = notes.find(note => note.id === parsedId)
+  if(!foundNote) return response.sendStatus(404)
+  response.send(foundNote);
+});
+
+app.post("/register", (request, response) => {
+  const test = request.body.test;
+  console.log(request.body, request.body.test);
+  if (test === "") return response.redirect("login");
+  else return response.redirect("/");
 });
 
 const PORT = process.env.PORT || 3000;
