@@ -24,7 +24,7 @@ export const notes = [
     },
     {
         id: 2,
-        title: 'bar',
+        title: 'Bar',
         description: 'note desc bar'
     },
     {

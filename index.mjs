@@ -17,7 +17,7 @@
 
 // })
 
-import express, { response } from "express";
+import express, { request, response } from "express";
 import { users, notes } from "./constants.mjs";
 
 // const express = require('express')
@@ -50,14 +50,24 @@ app.get("/api/users/:id", (request, response) => {
 });
 
 app.get("/notes", (request, response) => {
-  response.send(notes);
+  console.log(request.query);
+  const {
+    query: { filter, value },
+  } = request;
+  if (filter && value)
+    return response.send(
+      notes.filter((note) =>
+        note[filter].toLocaleLowerCase().startsWith(value.toLocaleLowerCase())
+      )
+    );
+  return response.send(notes);
 });
 app.get("/notes/:id", (request, response) => {
   const parsedId = parseInt(request.params.id);
   if (isNaN(parsedId))
     return response.status(400).send({ msg: "Bad request. Invalid ID." });
-  const foundNote = notes.find(note => note.id === parsedId)
-  if(!foundNote) return response.sendStatus(404)
+  const foundNote = notes.find((note) => note.id === parsedId);
+  if (!foundNote) return response.sendStatus(404);
   response.send(foundNote);
 });
 
