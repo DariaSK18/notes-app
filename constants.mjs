@@ -19,26 +19,32 @@ export const users = [
 export const notes = [
     {
         id: 1,
-        title: 'note'
+        title: 'note',
+        description: 'note desc'
     },
     {
         id: 2,
-        title: 'bar'
+        title: 'bar',
+        description: 'note desc bar'
     },
     {
         id: 3,
-        title: 'boo'
+        title: 'boo',
+        description: 'note desc boo'
     },
     {
         id: 4,
-        title: 'test'
+        title: 'test1',
+        description: 'note desc test1'
     },
     {
         id: 5,
-        title: 'baz'
+        title: 'baz',
+        description: 'note desc baz'
     },
     {
         id: 6,
-        title: 'test'
+        title: 'test',
+        description: 'note desc test'
     }
 ]
