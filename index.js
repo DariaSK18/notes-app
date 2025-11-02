@@ -22,6 +22,7 @@ const app = express()
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
+app.use(express.urlencoded({extended: false}))
 
 app.get('/', (req, res) => {
     res.render('index', {title: 'Home'})
@@ -31,6 +32,13 @@ app.get('/login', (req, res) => {
 })
 app.get('/register', (req, res) => {
     res.render('register', {title: 'Register'})
+})
+
+app.post('/register', (req, res) => {
+    const test = req.body.test
+    console.log(req.body, req.body.test)
+    if(test === '') return res.redirect('login')
+    else return res.redirect('/')
 })
 
 const PORT = 3000
