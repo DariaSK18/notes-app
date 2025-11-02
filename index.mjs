@@ -14,37 +14,58 @@
 
 // server.listen(PORT, HOST, () => {
 //     console.log(`Server is running: https://${HOST}:${PORT}`);
-    
+
 // })
 
-import express from "express"
+import express, { response } from "express";
 // const express = require('express')
-const app = express()
+const app = express();
 
-app.set('view engine', 'ejs')
-app.use(express.static('public'))
-app.use(express.urlencoded({extended: false}))
+const users = [
+    {
+        id: crypto.randomUUID(),
+        userName: 'Daria',
+        displayName: 'DariaSK'
+    },
+    {
+        id: crypto.randomUUID(),
+        userName: 'Vlad',
+        displayName: 'Vlad_1337'
+    },
+    {
+        id: crypto.randomUUID(),
+        userName: 'Olga',
+        displayName: 'Olala'
+    }
+]
 
-app.get('/', (req, res) => {
-    res.render('index', {title: 'Home'})
-})
-app.get('/login', (req, res) => {
-    res.render('login', {title: 'Login'})
-})
-app.get('/register', (req, res) => {
-    res.render('register', {title: 'Register'})
-})
+app.set("view engine", "ejs");
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: false }));
 
-app.post('/register', (req, res) => {
-    const test = req.body.test
-    console.log(req.body, req.body.test)
-    if(test === '') return res.redirect('login')
-    else return res.redirect('/')
-})
+app.get("/", (req, res) => {
+  res.render("index", { title: "Home" });
+});
+app.get("/login", (req, res) => {
+  res.render("login", { title: "Login" });
+});
+app.get("/register", (req, res) => {
+  res.render("register", { title: "Register" });
+});
+app.get("/api/users", (req, res) => {
+    res.send(users)
+});
 
-const PORT = process.env.PORT || 3000
-const HOST = 'localhost'
+app.post("/register", (req, res) => {
+  const test = req.body.test;
+  console.log(req.body, req.body.test);
+  if (test === "") return res.redirect("login");
+  else return res.redirect("/");
+});
+
+const PORT = process.env.PORT || 3000;
+const HOST = "localhost";
 
 app.listen(PORT, () => {
-    console.log(`Running on Port: ${PORT}\n http://${HOST}:${PORT}`);
-})
+  console.log(`Running on Port: ${PORT}\n http://${HOST}:${PORT}`);
+});
