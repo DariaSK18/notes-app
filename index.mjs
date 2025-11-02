@@ -22,22 +22,22 @@ import express, { response } from "express";
 const app = express();
 
 const users = [
-    {
-        id: crypto.randomUUID(),
-        userName: 'Daria',
-        displayName: 'DariaSK'
-    },
-    {
-        id: crypto.randomUUID(),
-        userName: 'Vlad',
-        displayName: 'Vlad_1337'
-    },
-    {
-        id: crypto.randomUUID(),
-        userName: 'Olga',
-        displayName: 'Olala'
-    }
-]
+  {
+    id: crypto.randomUUID(),
+    userName: "Daria",
+    displayName: "DariaSK",
+  },
+  {
+    id: crypto.randomUUID(),
+    userName: "Vlad",
+    displayName: "Vlad_1337",
+  },
+  {
+    id: crypto.randomUUID(),
+    userName: "Olga",
+    displayName: "Olala",
+  },
+];
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -53,7 +53,16 @@ app.get("/register", (req, res) => {
   res.render("register", { title: "Register" });
 });
 app.get("/api/users", (req, res) => {
-    res.send(users)
+  res.send(users);
+});
+app.get("/api/users/:id", (req, res) => {
+  const userId = req.params.id;
+//   if(!userId) return res.status(400).send({msg: 'Bad request. Invalid ID.'})
+  // .send({msg: 'Bad request. Invalid ID.'})
+  const foundUser = users.find((user) => user.id === userId);
+  if (!foundUser) return res.sendStatus(404);
+  console.log("foundUser", foundUser);
+  res.send(foundUser);
 });
 
 app.post("/register", (req, res) => {
