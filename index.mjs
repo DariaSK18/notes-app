@@ -19,6 +19,7 @@
 
 import express, { request, response } from "express";
 import { users, notes } from "./constants.mjs";
+import { query } from "express-validator";
 
 // const express = require('express')
 const app = express();
@@ -67,7 +68,7 @@ app.get("/api/users/:id", (request, response) => {
   response.send(foundUser);
 });
 
-app.get("/notes", (request, response) => {
+app.get("/notes", query("filter").isString().notEmpty(), (request, response) => {
   console.log(request.query);
   const {
     query: { filter, value },
