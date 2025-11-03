@@ -23,9 +23,27 @@ import { users, notes } from "./constants.mjs";
 // const express = require('express')
 const app = express();
 
+app.use(express.json());
+
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
+
+// const loggingMidleware = (request, response, next) => {
+//     console.log(`${request.method} - ${request.url}`)
+//     next()
+// }
+// app.use(loggingMidleware)
+
+const resolveIndexById = (array) => (request, response, next) => {
+  const {
+    params: { id },
+  } = request;
+  const findIndex = array.findIndex((item) => item.id === id);
+  if (findIndex === -1) return response.sendStatus(400);
+  request.findIndex = findIndex;
+  next();
+};
 
 app.get("/", (request, response) => {
   response.render("index", { title: "Home" });
@@ -62,13 +80,41 @@ app.get("/notes", (request, response) => {
     );
   return response.send(notes);
 });
-app.get("/notes/:id", (request, response) => {
+app.get("/notes/:id", resolveIndexById(notes), (request, response) => {
   const parsedId = parseInt(request.params.id);
   if (isNaN(parsedId))
     return response.status(400).send({ msg: "Bad request. Invalid ID." });
   const foundNote = notes.find((note) => note.id === parsedId);
   if (!foundNote) return response.sendStatus(404);
   response.send(foundNote);
+});
+
+app.post("/notes", (request, response) => {
+  //   console.log(request.body);
+  const { body } = request;
+  const newNote = { id: crypto.randomUUID(), ...body };
+  notes.push(newNote);
+  return response.status(201).send(newNote);
+});
+
+app.put("/notes/:id", resolveIndexById(notes), (request, response) => {
+  const { body, findIndex } = request;
+  //   console.log(id);
+  //   console.log(findNoteIndex);
+  notes[findIndex] = { id: id, ...body };
+  return response.sendStatus(200);
+});
+
+app.patch("/notes/:id", resolveIndexById(notes), (request, response) => {
+  const { body, findIndex } = request;
+  notes[findIndex] = { ...notes[findIndex], ...body };
+  return response.sendStatus(200);
+});
+
+app.delete("/notes/:id", resolveIndexById(notes), (request, response) => {
+  const { findIndex } = request;
+  notes.splice(findIndex, 1);
+  return response.sendStatus(200);
 });
 
 app.post("/register", (request, response) => {
