@@ -19,7 +19,14 @@
 
 import express, { request, response } from "express";
 import { users, notes } from "./constants.mjs";
-import { query, validationResult, body, matchedData } from "express-validator";
+import {
+  query,
+  validationResult,
+  body,
+  matchedData,
+  checkSchema,
+} from "express-validator";
+import { validationSchema } from "./utils/validationShemas.mjs";
 
 // const express = require('express')
 const app = express();
@@ -103,31 +110,13 @@ app.get("/notes/:id", resolveIndexById(notes), (request, response) => {
 });
 
 app.post(
-  "/notes",
-  [
-    body("title")
-      .isString()
-      .withMessage("Must be a string")
-      .notEmpty()
-      .withMessage("Must be not Empty")
-      .isLength({ min: 2, max: 50 })
-      .withMessage("Must be at least 2-50 chars"),
-    body("description")
-      .isString()
-      .withMessage("Must be a string")
-      .notEmpty()
-      .withMessage("Must be not Empty")
-      .isLength({ min: 2, max: 50 })
-      .withMessage("Must be at least 2-50 chars"),
-  ],
-
-  (request, response) => {
+  "/notes", checkSchema(validationSchema), (request, response) => {
     const result = validationResult(request);
     console.log("result", result);
     if (!result.isEmpty())
       return response.status(400).send({ errors: result.array() });
     //   console.log(request.body);
-    const data = matchedData(request)
+    const data = matchedData(request);
     // const { body } = request;
     const newNote = { id: crypto.randomUUID(), ...data };
     notes.push(newNote);
