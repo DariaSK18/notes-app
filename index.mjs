@@ -19,7 +19,7 @@
 
 import express, { request, response } from "express";
 import { users, notes } from "./constants.mjs";
-import { query } from "express-validator";
+import { query, validationResult } from "express-validator";
 
 // const express = require('express')
 const app = express();
@@ -68,19 +68,31 @@ app.get("/api/users/:id", (request, response) => {
   response.send(foundUser);
 });
 
-app.get("/notes", query("filter").isString().notEmpty(), (request, response) => {
-  console.log(request.query);
-  const {
-    query: { filter, value },
-  } = request;
-  if (filter && value)
-    return response.send(
-      notes.filter((note) =>
-        note[filter].toLocaleLowerCase().startsWith(value.toLocaleLowerCase())
-      )
-    );
-  return response.send(notes);
-});
+app.get(
+  "/notes",
+  query("filter")
+    .isString()
+    .notEmpty()
+    .withMessage("Empty")
+    .isLength({ min: 2, max: 10 })
+    .withMessage("Must be at least 2-10 chars"),
+  (request, response) => {
+    const result = validationResult(request);
+    console.log("result", result);
+
+    console.log(request.query);
+    const {
+      query: { filter, value },
+    } = request;
+    if (filter && value)
+      return response.send(
+        notes.filter((note) =>
+          note[filter].toLocaleLowerCase().startsWith(value.toLocaleLowerCase())
+        )
+      );
+    return response.send(notes);
+  }
+);
 app.get("/notes/:id", resolveIndexById(notes), (request, response) => {
   const parsedId = parseInt(request.params.id);
   if (isNaN(parsedId))
