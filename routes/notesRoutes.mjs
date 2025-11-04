@@ -42,21 +42,30 @@ router.get("/notes/:id", resolveIndexById(notes), (request, response) => {
 });
 
 router.post("/notes", checkSchema(validationSchema), (request, response) => {
+  if (!request.session.user) return response.sendStatus(401);
   const result = validationResult(request);
-  console.log("result", result);
+  // console.log("result", result);
   if (!result.isEmpty())
     return response.status(400).send({ errors: result.array() });
   //   console.log(request.body);
   const data = matchedData(request);
-  // const { body } = request;
   const newNote = { id: crypto.randomUUID(), ...data };
-  notes.push(newNote);
-  return response.status(201).send(newNote);
+  const { userNotes } = request.session;
+  if (userNotes) {
+    userNotes.push(newNote);
+  }
+  // const { body } = request;
+  else request.session.userNotes = [newNote]
+  return response.status(201).send(userNotes);
 });
 
 router.put("/notes/:id", resolveIndexById(notes), (request, response) => {
-  const { body, findIndex, params: {id} } = request;
-    console.log(id);
+  const {
+    body,
+    findIndex,
+    params: { id },
+  } = request;
+  console.log(id);
   //   console.log(findNoteIndex);
   notes[findIndex] = { id: id, ...body };
   return response.sendStatus(200);
