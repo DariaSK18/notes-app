@@ -21,28 +21,6 @@ export const validationSchema = {
       errorMessage: "Must be at least 2-50 chars",
     },
   },
-  userName: {
-    isString: { errorMessage: "Must be a string" },
-    notEmpty: { errorMessage: "Must be not Empty" },
-    isLength: {
-      options: {
-        min: 2,
-        max: 12,
-      },
-      errorMessage: "Must be at least 2-12 chars",
-    },
-  },
-  password: {
-    isString: { errorMessage: "Must be a string" },
-    notEmpty: { errorMessage: "Must be not Empty" },
-    isLength: {
-      options: {
-        min: 6,
-        max: 20,
-      },
-      errorMessage: "Must be at least 6-20 chars",
-    },
-  },
 };
 
 export const validationSchemaUser = {
