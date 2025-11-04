@@ -27,14 +27,15 @@ import express, { request, response } from "express";
 //   checkSchema,
 // } from "express-validator";
 // import { validationSchema } from "./utils/validationShemas.mjs";
-import routes from './routes/index.mjs'
-
+import routes from "./routes/index.mjs";
+import cookieParser from "cookie-parser";
 
 // const express = require('express')
 const app = express();
 
 app.use(express.json());
-app.use(routes)
+app.use(cookieParser());
+app.use(routes);
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));

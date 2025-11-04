@@ -1,19 +1,58 @@
 import { Router } from "express";
 import { users } from "../constants.mjs";
+import { resolveItemById, resolveIndexById } from "../utils/midlewares.mjs";
+import { validationSchemaUser } from "../utils/validationShemas.mjs";
+import { checkSchema, validationResult, matchedData } from "express-validator";
 
-const router = Router()
+const router = Router();
 
 router.get("/api/users", (request, response) => {
   response.send(users);
 });
-router.get("/api/users/:id", (request, response) => {
-  const userId = request.params.id;
-  //   if(!userId) return res.status(400).send({msg: 'Bad request. Invalid ID.'})
-  // .send({msg: 'Bad request. Invalid ID.'})
-  const foundUser = users.find((user) => user.id === userId);
-  if (!foundUser) return response.sendStatus(404);
-  console.log("foundUser", foundUser);
-  response.send(foundUser);
+
+router.get("/api/users/:id", resolveItemById(users), (request, response) => {
+  const { item } = request;
+  console.log("item", item);
+  if (!item) return response.sendStatus(404);
+  response.send(item);
 });
 
-export default router
+router.post(
+  "/api/users",
+  checkSchema(validationSchemaUser),
+  (request, response) => {
+    const result = validationResult(request);
+    console.log(result);
+
+    if (!result.isEmpty())
+      return response.status(400).send({ errors: result.array() });
+    const data = matchedData(request);
+    console.log(data);
+
+    const newUser = { id: crypto.randomUUID(), ...data };
+    console.log(newUser);
+
+    users.push(newUser);
+    console.log(users);
+
+    return response.status(201).send(newUser);
+  }
+);
+
+router.patch("/api/users/:id", resolveIndexById(users), (request, response) => {
+  const { body, findIndex } = request;
+  users[findIndex] = { ...users[findIndex], ...body };
+  return response.sendStatus(200);
+});
+
+router.delete(
+  "/api/users/:id",
+  resolveIndexById(users),
+  (request, response) => {
+    const { findIndex } = request;
+    users.splice(findIndex, 1);
+    return response.sendStatus(200);
+  }
+);
+
+export default router;
