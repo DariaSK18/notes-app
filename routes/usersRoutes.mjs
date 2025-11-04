@@ -3,10 +3,9 @@ import { users } from "../constants.mjs";
 import { resolveItemById, resolveIndexById } from "../utils/midlewares.mjs";
 import { validationSchemaUser } from "../utils/validationShemas.mjs";
 import { checkSchema, validationResult, matchedData } from "express-validator";
-import dotenv from "dotenv";
 
 const router = Router();
-dotenv.config()
+
 
 router.get("/api/users", (request, response) => {
   console.log(request.headers.cookie);

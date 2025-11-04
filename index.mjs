@@ -29,19 +29,33 @@ import express, { request, response } from "express";
 // import { validationSchema } from "./utils/validationShemas.mjs";
 import routes from "./routes/index.mjs";
 import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
+import session from "express-session";
 
 // const express = require('express')
 const app = express();
 
-app.use(express.json());
-app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use(routes);
+dotenv.config()
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(session({
+  secret: process.env.COOKIE_SECRET,
+  saveUninitialized: false,
+  resave: false,
+  cookie: {
+    maxAge: 60000 * 60, // one hour
+  }
+}))
+
+app.use(routes);
 
 app.get("/", (request, response) => {
+  console.log(request.session);
+  console.log(request.sessionID);
   response.cookie("hello", "world", { maxAge: 60000, path: "/", signed: true });
   response.render("index", { title: "Home" });
 });
