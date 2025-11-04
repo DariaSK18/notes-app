@@ -7,7 +7,13 @@ import { checkSchema, validationResult, matchedData } from "express-validator";
 const router = Router();
 
 router.get("/api/users", (request, response) => {
-  response.send(users);
+  console.log(request.headers.cookie);
+  console.log(request.cookies);
+  console.log(request.signedCookies);
+  
+
+  if (request.signedCookies.hello && request.signedCookies.hello === "world") return response.send(users);
+  else return response.status(403).send({msg: 'Wrong cookie'})
 });
 
 router.get("/api/users/:id", resolveItemById(users), (request, response) => {
@@ -22,19 +28,15 @@ router.post(
   checkSchema(validationSchemaUser),
   (request, response) => {
     const result = validationResult(request);
-    console.log(result);
-
+    // console.log(result);
     if (!result.isEmpty())
       return response.status(400).send({ errors: result.array() });
     const data = matchedData(request);
-    console.log(data);
-
+    // console.log(data);
     const newUser = { id: crypto.randomUUID(), ...data };
-    console.log(newUser);
-
+    // console.log(newUser);
     users.push(newUser);
-    console.log(users);
-
+    // console.log(users);
     return response.status(201).send(newUser);
   }
 );

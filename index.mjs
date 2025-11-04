@@ -34,7 +34,7 @@ import cookieParser from "cookie-parser";
 const app = express();
 
 app.use(express.json());
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(routes);
 
 app.set("view engine", "ejs");
@@ -42,6 +42,7 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (request, response) => {
+  response.cookie("hello", "world", { maxAge: 60000, path: "/", signed: true });
   response.render("index", { title: "Home" });
 });
 app.get("/login", (request, response) => {
