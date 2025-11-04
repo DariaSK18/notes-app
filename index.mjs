@@ -18,24 +18,23 @@
 // })
 
 import express, { request, response } from "express";
-import { users, notes } from "./constants.mjs";
-import {
-  query,
-  validationResult,
-  body,
-  matchedData,
-  checkSchema,
-} from "express-validator";
-import { validationSchema } from "./utils/validationShemas.mjs";
-import notesRoutes from "./routes/notesRoutes.mjs";
-import usersRoutes from "./routes/usersRoutes.mjs";
+// import { users, notes } from "./constants.mjs";
+// import {
+//   query,
+//   validationResult,
+//   body,
+//   matchedData,
+//   checkSchema,
+// } from "express-validator";
+// import { validationSchema } from "./utils/validationShemas.mjs";
+import routes from './routes/index.mjs'
 
 
 // const express = require('express')
 const app = express();
 
 app.use(express.json());
-app.use(notesRoutes, usersRoutes)
+app.use(routes)
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
