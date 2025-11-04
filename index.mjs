@@ -54,10 +54,10 @@ app.use(session({
 app.use(routes);
 
 app.get("/", (request, response) => {
-  console.log(request.session);
-  console.log(request.sessionID);
-  request.session.visited = true
-  response.cookie("sessionId", "world", { maxAge: 60000, path: "/", signed: true });
+  // console.log(request.session);
+  // console.log(request.sessionID);
+  // request.session.visited = true
+  // response.cookie("sessionId", "world", { maxAge: 60000, path: "/", signed: true });
   response.render("index", { title: "Home" });
 });
 app.get("/login", (request, response) => {

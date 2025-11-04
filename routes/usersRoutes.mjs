@@ -6,22 +6,23 @@ import { checkSchema, validationResult, matchedData } from "express-validator";
 
 const router = Router();
 
-
 router.get("/api/users", (request, response) => {
   // console.log(request.headers.cookie);
   // console.log(request.cookies);
   // console.log(request.signedCookies);
-  console.log(request.session);
-  console.log(request.sessionID);
+  // console.log(request.session);
+  // console.log(request.sessionID);
   // request.sessionStore.get(request.session.id, (err, sessionData) => {
   //   if(err) {
   //     console.log(err)
   //     throw err
   //   }
-  //   console.log(sessionData); 
+  //   console.log(sessionData);
   // })
-  if (request.signedCookies.sessionId && request.signedCookies.sessionId === "world") return response.send(users);
-  else return response.status(403).send({msg: 'Wrong cookie'})
+  // if (request.signedCookies.sessionId && request.signedCookies.sessionId === "world") return response.send(users);
+  // else return response.status(403).send({msg: 'Wrong cookie'})
+  if (request.session.user) return response.send(users);
+  else return response.status(403).send({ msg: "Wrong cookie" });
 });
 
 router.get("/api/users/:id", resolveItemById(users), (request, response) => {
@@ -65,8 +66,25 @@ router.delete(
   }
 );
 
-router.post('/api/auth', resolveItemById(users), (request, response) => {
-  
-})
+router.post(
+  "/api/auth",
+  checkSchema(validationSchemaUser),
+  (request, response) => {
+    const {
+      body: { userName, password },
+    } = request;
+    const findUser = users.find((user) => user.userName === userName);
+    if (!findUser || findUser.password !== password)
+      return response.status(401).send({ msg: "Bad credentials" });
+    request.session.user = findUser;
+    return response.status(200).send(findUser);
+  }
+);
+
+router.get("/api/auth/status", (request, response) => {
+  return request.session.user
+    ? response.status(200).send(request.session.user)
+    : response.status(401).send({ msg: "Not Authenticated" });
+});
 
 export default router;
