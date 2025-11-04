@@ -20,6 +20,7 @@ router.get(
     .isLength({ min: 2, max: 10 })
     .withMessage("Must be at least 2-10 chars"),
   (request, response) => {
+    if (!request.session.user) return response.sendStatus(401);
     const result = validationResult(request);
     console.log("result", result);
 
@@ -33,7 +34,8 @@ router.get(
           note[filter].toLocaleLowerCase().startsWith(value.toLocaleLowerCase())
         )
       );
-    return response.send(notes);
+    // return response.send(notes);
+    return response.send(request.session.userNotes ?? [])
   }
 );
 router.get("/notes/:id", resolveIndexById(notes), (request, response) => {
