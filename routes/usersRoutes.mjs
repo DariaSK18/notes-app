@@ -8,12 +8,20 @@ const router = Router();
 
 
 router.get("/api/users", (request, response) => {
-  console.log(request.headers.cookie);
-  console.log(request.cookies);
-  console.log(request.signedCookies);
-  
-
-  if (request.signedCookies.hello && request.signedCookies.hello === "world") return response.send(users);
+  // console.log(request.headers.cookie);
+  // console.log(request.cookies);
+  // console.log(request.signedCookies);
+  console.log(request.session);
+  console.log(request.sessionID);
+  // request.sessionStore.get(request.session.id, (err, sessionData) => {
+  //   if(err) {
+  //     console.log(err)
+  //     throw err
+  //   }
+  //   console.log(sessionData);
+    
+  // })
+  if (request.signedCookies.sessionId && request.signedCookies.sessionId === "world") return response.send(users);
   else return response.status(403).send({msg: 'Wrong cookie'})
 });
 
