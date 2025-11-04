@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { request, response, Router } from "express";
 import { users } from "../constants.mjs";
 import { resolveItemById, resolveIndexById } from "../utils/midlewares.mjs";
 import { validationSchemaUser } from "../utils/validationShemas.mjs";
@@ -18,8 +18,7 @@ router.get("/api/users", (request, response) => {
   //     console.log(err)
   //     throw err
   //   }
-  //   console.log(sessionData);
-    
+  //   console.log(sessionData); 
   // })
   if (request.signedCookies.sessionId && request.signedCookies.sessionId === "world") return response.send(users);
   else return response.status(403).send({msg: 'Wrong cookie'})
@@ -65,5 +64,9 @@ router.delete(
     return response.sendStatus(200);
   }
 );
+
+router.post('/api/auth', resolveItemById(users), (request, response) => {
+  
+})
 
 export default router;

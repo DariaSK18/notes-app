@@ -3,16 +3,19 @@ export const users = [
     id: crypto.randomUUID(),
     userName: "Daria",
     displayName: "DariaSK",
+    password: 'daria123'
   },
   {
     id: crypto.randomUUID(),
     userName: "Vlad",
     displayName: "Vlad_1337",
+    password: 'vlad1337'
   },
   {
     id: crypto.randomUUID(),
     userName: "Olga",
     displayName: "Olala",
+    password: 'olga123'
   },
 ];
 
