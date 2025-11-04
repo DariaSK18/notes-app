@@ -31,6 +31,7 @@ import routes from "./routes/index.mjs";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import session from "express-session";
+import passport from "passport";
 
 // const express = require('express')
 const app = express();
@@ -50,6 +51,8 @@ app.use(session({
     maxAge: 60000 * 60, // one hour
   }
 }))
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use(routes);
 
