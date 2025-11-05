@@ -68,10 +68,26 @@ router.post(
   }
 );
 
-router.patch("/api/users/:id", resolveIndexById(users), (request, response) => {
-  const { body, findIndex } = request;
-  users[findIndex] = { ...users[findIndex], ...body };
-  return response.sendStatus(200);
+// --- edit profile information (userName and password for now) ---
+router.patch("/api/users/me", checkSchema(validationSchemaUser), async (request, response) => {
+  const { body } = request;
+  const result = validationResult(request);
+  if (!result.isEmpty()) return response.status(400).send({ errors: result.array() });
+  const data = matchedData(request)
+  data.password = hashPassword(data.password)
+
+  if(!request.user) return response.sendStatus(401)
+  try {
+    const updatedUser = await User.findByIdAndUpdate(request.user._id, data, {new: true})
+    response.status(200).send(updatedUser)
+  } catch (error) {
+    console.log(`Error: ${error}`)
+    return response.sendStatus(400);
+  }
+
+  // const { body, findIndex } = request;
+  // users[findIndex] = { ...users[findIndex], ...body };
+  // return response.sendStatus(200);
 });
 
 // --- delete user account (only owned) and logout ---
