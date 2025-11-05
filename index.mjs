@@ -83,12 +83,12 @@ app.get("/register", (request, response) => {
   response.render("register", { title: "Register" });
 });
 
-app.post("/register", (request, response) => {
-  const test = request.body.test;
-  console.log(request.body, request.body.test);
-  if (test === "") return response.redirect("login");
-  else return response.redirect("/");
-});
+// app.post("/register", (request, response) => {
+//   const test = request.body.test;
+//   console.log(request.body, request.body.test);
+//   if (test === "") return response.redirect("login");
+//   else return response.redirect("/");
+// });
 
 const PORT = process.env.PORT || 3000;
 const HOST = "localhost";

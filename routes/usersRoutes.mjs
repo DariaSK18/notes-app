@@ -132,10 +132,13 @@ router.delete("/api/users/me", async (request, response) => {
 // --- user login ---
 router.post(
   "/api/auth",
-  passport.authenticate("local"),
-  (request, response) => {
-    response.sendStatus(200);
-  }
+  passport.authenticate("local", {
+    failureRedirect: '/login',
+    successRedirect: '/',
+  })
+  // (request, response) => {
+  //   response.sendStatus(200)
+  // }
 );
 
 // --- user authentification check ---
