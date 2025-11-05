@@ -5,6 +5,7 @@ import { validationSchemaUser } from "../utils/validationShemas.mjs";
 import { checkSchema, validationResult, matchedData } from "express-validator";
 import passport from "passport";
 import "../strategies/local-strategy.mjs";
+import { User } from "../mongoose/schemas/user.mjs";
 
 const router = Router();
 
@@ -37,18 +38,30 @@ router.get("/api/users/:id", resolveItemById(users), (request, response) => {
 router.post(
   "/api/users",
   checkSchema(validationSchemaUser),
-  (request, response) => {
+  async (request, response) => {
     const result = validationResult(request);
-    // console.log(result);
+    console.log(result);
     if (!result.isEmpty())
       return response.status(400).send({ errors: result.array() });
     const data = matchedData(request);
-    // console.log(data);
-    const newUser = { id: crypto.randomUUID(), ...data };
-    // console.log(newUser);
-    users.push(newUser);
-    // console.log(users);
-    return response.status(201).send(newUser);
+    console.log(data);
+
+    const newUser = new User(data)
+    console.log(newUser);
+    
+    try {
+      const savedUser = await newUser.save()
+      return response.status(201).send(savedUser)
+    }catch(err) {
+      console.log(err)
+      return response.sendStatus(400)
+    }
+
+    // const newUser = { id: crypto.randomUUID(), ...data };
+    // // console.log(newUser);
+    // users.push(newUser);
+    // // console.log(users);
+    // return response.status(201).send(newUser);
   }
 );
 
