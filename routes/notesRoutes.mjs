@@ -9,8 +9,8 @@ import {
   validationSchema,
   validationSchemaNotePatch,
 } from "../utils/validationShemas.mjs";
-import { notes } from "../constants.mjs";
-import { resolveIndexById } from "../utils/midlewares.mjs";
+// import { notes } from "../constants.mjs";
+// import { resolveIndexById } from "../utils/midlewares.mjs";
 import { Note } from "../mongoose/schemas/note.mjs";
 
 const router = Router();
@@ -118,10 +118,15 @@ router.patch(
     // notes[findIndex] = { ...notes[findIndex], ...body };
     if (!request.user) return response.sendStatus(401);
     try {
-      const updatedNote = await Note.findOneAndUpdate({_id: id, userId: request.user._id}, data, {
-        new: true,
-      });
-      if(!updatedNote) return response.status(404).send({msg: 'Note not found'})
+      const updatedNote = await Note.findOneAndUpdate(
+        { _id: id, userId: request.user._id },
+        data,
+        {
+          new: true,
+        }
+      );
+      if (!updatedNote)
+        return response.status(404).send({ msg: "Note not found" });
       response.status(200).send(updatedNote);
     } catch (error) {
       console.log(`Error: ${error}`);
@@ -131,13 +136,18 @@ router.patch(
   }
 );
 
-router.delete(
-  "/api/notes/:id",
-  async (request, response) => {
-    const { findIndex } = request;
-    notes.splice(findIndex, 1);
-    return response.sendStatus(200);
+// --- delete note by id for current user ---
+router.delete("/api/notes/:id", async (request, response) => {
+  const {
+    params: { id },
+  } = request;
+  if (!request.user) return response.sendStatus(401);
+  try {
+    await Note.findOneAndDelete({ _id: id, userId: request.user._id });
+    response.send(200);
+  } catch (error) {
+    console.log(`Error: ${error}`);
   }
-);
+});
 
 export default router;
