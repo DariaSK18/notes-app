@@ -1,7 +1,10 @@
-import { request, response, Router } from "express";
-import { users } from "../constants.mjs";
-import { resolveItemById, resolveIndexById } from "../utils/midlewares.mjs";
-import { validationSchemaUser } from "../utils/validationShemas.mjs";
+import { Router } from "express";
+// import { users } from "../constants.mjs";
+// import { resolveItemById } from "../utils/midlewares.mjs";
+import {
+  validationSchemaUser,
+  validationSchemaUserPatch,
+} from "../utils/validationShemas.mjs";
 import { checkSchema, validationResult, matchedData } from "express-validator";
 import passport from "passport";
 import "../strategies/local-strategy.mjs";
@@ -10,31 +13,31 @@ import { hashPassword } from "../utils/helpers.mjs";
 
 const router = Router();
 
-router.get("/api/users", (request, response) => {
-  // console.log(request.headers.cookie);
-  // console.log(request.cookies);
-  // console.log(request.signedCookies);
-  // console.log(request.session);
-  // console.log(request.sessionID);
-  // request.sessionStore.get(request.session.id, (err, sessionData) => {
-  //   if(err) {
-  //     console.log(err)
-  //     throw err
-  //   }
-  //   console.log(sessionData);
-  // })
-  // if (request.signedCookies.sessionId && request.signedCookies.sessionId === "world") return response.send(users);
-  // else return response.status(403).send({msg: 'Wrong cookie'})
-  if (request.session.user) return response.send(users);
-  else return response.status(403).send({ msg: "Wrong cookie" });
-});
+// router.get("/api/users", (request, response) => {
+//   // console.log(request.headers.cookie);
+//   // console.log(request.cookies);
+//   // console.log(request.signedCookies);
+//   // console.log(request.session);
+//   // console.log(request.sessionID);
+//   // request.sessionStore.get(request.session.id, (err, sessionData) => {
+//   //   if(err) {
+//   //     console.log(err)
+//   //     throw err
+//   //   }
+//   //   console.log(sessionData);
+//   // })
+//   // if (request.signedCookies.sessionId && request.signedCookies.sessionId === "world") return response.send(users);
+//   // else return response.status(403).send({msg: 'Wrong cookie'})
+//   if (request.session.user) return response.send(users);
+//   else return response.status(403).send({ msg: "Wrong cookie" });
+// });
 
-router.get("/api/users/:id", resolveItemById(users), (request, response) => {
-  const { item } = request;
-  console.log("item", item);
-  if (!item) return response.sendStatus(404);
-  response.send(item);
-});
+// router.get("/api/users/:id", resolveItemById(users), (request, response) => {
+//   const { item } = request;
+//   console.log("item", item);
+//   if (!item) return response.sendStatus(404);
+//   response.send(item);
+// });
 
 // --- user registration and saving to database ---
 router.post(
@@ -47,17 +50,17 @@ router.post(
       return response.status(400).send({ errors: result.array() });
     const data = matchedData(request);
     // console.log('data', data);
-    data.password = hashPassword(data.password)
+    data.password = hashPassword(data.password);
     // console.log('hashed p data',data);
-    const newUser = new User(data)
+    const newUser = new User(data);
     // console.log(newUser);
-    
+
     try {
-      const savedUser = await newUser.save()
-      return response.status(201).send(savedUser)
-    }catch(err) {
-      console.log(err)
-      return response.sendStatus(400)
+      const savedUser = await newUser.save();
+      return response.status(201).send(savedUser);
+    } catch (err) {
+      console.log(err);
+      return response.sendStatus(400);
     }
 
     // const newUser = { id: crypto.randomUUID(), ...data };
@@ -69,42 +72,47 @@ router.post(
 );
 
 // --- edit profile information (userName and password for now) ---
-router.patch("/api/users/me", checkSchema(validationSchemaUser), async (request, response) => {
-  const { body } = request;
-  const result = validationResult(request);
-  if (!result.isEmpty()) return response.status(400).send({ errors: result.array() });
-  const data = matchedData(request)
-  data.password = hashPassword(data.password)
+router.patch(
+  "/api/users/me",
+  checkSchema(validationSchemaUserPatch),
+  async (request, response) => {
+    const { body } = request;
+    const result = validationResult(request);
+    if (!result.isEmpty())
+      return response.status(400).send({ errors: result.array() });
+    const data = matchedData(request);
+    data.password = hashPassword(data.password);
 
-  if(!request.user) return response.sendStatus(401)
-  try {
-    const updatedUser = await User.findByIdAndUpdate(request.user._id, data, {new: true})
-    response.status(200).send(updatedUser)
-  } catch (error) {
-    console.log(`Error: ${error}`)
-    return response.sendStatus(400);
-  }
-
-  // const { body, findIndex } = request;
-  // users[findIndex] = { ...users[findIndex], ...body };
-  // return response.sendStatus(200);
-});
-
-// --- delete user account (only owned) and logout ---
-router.delete(
-  "/api/users/me", async (request, response) => {
-    if(!request.user) return response.sendStatus(401)
+    if (!request.user) return response.sendStatus(401);
     try {
-      await User.findByIdAndDelete(request.user._id)
-      request.logout(err => {
-        if(err) return response.sendStatus(400)
-        response.send(200)
-      })
+      const updatedUser = await User.findByIdAndUpdate(request.user._id, data, {
+        new: true,
+      });
+      response.status(200).send(updatedUser);
     } catch (error) {
       console.log(`Error: ${error}`);
+      return response.sendStatus(400);
     }
+
+    // const { body, findIndex } = request;
+    // users[findIndex] = { ...users[findIndex], ...body };
+    // return response.sendStatus(200);
   }
 );
+
+// --- delete user account (only owned) and logout ---
+router.delete("/api/users/me", async (request, response) => {
+  if (!request.user) return response.sendStatus(401);
+  try {
+    await User.findByIdAndDelete(request.user._id);
+    request.logout((err) => {
+      if (err) return response.sendStatus(400);
+      response.send(200);
+    });
+  } catch (error) {
+    console.log(`Error: ${error}`);
+  }
+});
 
 // router.post(
 //   "/api/auth",
@@ -120,7 +128,6 @@ router.delete(
 //     return response.status(200).send(findUser);
 //   }
 // );
-
 
 // --- user login ---
 router.post(

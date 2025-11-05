@@ -47,3 +47,30 @@ export const validationSchemaUser = {
     },
   },
 };
+
+export const validationSchemaUserPatch = {
+  userName: {
+    optional: true,
+    isString: { errorMessage: "Must be a string" },
+    notEmpty: { errorMessage: "Must be not Empty" },
+    isLength: {
+      options: {
+        min: 2,
+        max: 12,
+      },
+      errorMessage: "Must be at least 2-12 chars",
+    },
+  },
+  password: {
+    optional: true,
+    isString: { errorMessage: "Must be a string" },
+    notEmpty: { errorMessage: "Must be not Empty" },
+    isLength: {
+      options: {
+        min: 6,
+        max: 20,
+      },
+      errorMessage: "Must be at least 6-20 chars",
+    },
+  },
+};
