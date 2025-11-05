@@ -83,9 +83,13 @@ router.delete(
 //   }
 // );
 
-router.post("/api/auth", passport.authenticate('local'), (request, response) => {
-  response.sendStatus(200)
-})
+router.post(
+  "/api/auth",
+  passport.authenticate("local"),
+  (request, response) => {
+    response.sendStatus(200);
+  }
+);
 
 router.get("/api/auth/status", (request, response) => {
   // return request.session.user
@@ -93,9 +97,18 @@ router.get("/api/auth/status", (request, response) => {
   //   : response.status(401).send({ msg: "Not Authenticated" });
   console.log(request.user);
   console.log(request.session);
-  
-  
-  return request.user ? response.status(200).send(request.user) : response.status(401).send({ msg: "Not Authenticated" });
+
+  return request.user
+    ? response.status(200).send(request.user)
+    : response.status(401).send({ msg: "Not Authenticated" });
+});
+
+router.post("/api/auth/logout", (request, response) => {
+  if (!request.user) return response.sendStatus(401);
+  request.logout((err) => {
+    if (err) return response.sendStatus(400);
+    response.send(200);
+  });
 });
 
 export default router;
