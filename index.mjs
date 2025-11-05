@@ -34,6 +34,7 @@ import session from "express-session";
 import passport from "passport";
 // import "./strategies/local-strategy.mjs";
 import mongoose from "mongoose";
+import MongoStore from "connect-mongo";
 
 // const express = require('express')
 const app = express();
@@ -41,7 +42,7 @@ const app = express();
 mongoose
   .connect("mongodb://localhost/notes_app")
   .then(() => console.log("Connected to Database"))
-  .catch((err) => console.log(`Error: ${err}`))
+  .catch((err) => console.log(`Error: ${err}`));
 
 dotenv.config();
 
@@ -58,6 +59,9 @@ app.use(
     cookie: {
       maxAge: 60000 * 60, // one hour
     },
+    store: MongoStore.create({
+      client: mongoose.connection.getClient(),
+    }),
   })
 );
 app.use(passport.initialize());
