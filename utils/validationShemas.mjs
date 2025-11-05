@@ -22,6 +22,32 @@ export const validationSchema = {
     },
   },
 };
+export const validationSchemaNotePatch = {
+  title: {
+    optional: true,
+    isString: { errorMessage: "Must be a string" },
+    notEmpty: { errorMessage: "Must be not Empty" },
+    isLength: {
+      options: {
+        min: 2,
+        max: 10,
+      },
+      errorMessage: "Must be at least 2-10 chars",
+    },
+  },
+  description: {
+    optional: true,
+    isString: { errorMessage: "Must be a string" },
+    notEmpty: { errorMessage: "Must be not Empty" },
+    isLength: {
+      options: {
+        min: 2,
+        max: 50,
+      },
+      errorMessage: "Must be at least 2-50 chars",
+    },
+  },
+};
 
 export const validationSchemaUser = {
   userName: {
