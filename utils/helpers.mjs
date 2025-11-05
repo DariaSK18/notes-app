@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 const saltRound = 10;
 
 export const hashPassword = (password) => {
+    // console.log('password', password);
     const salt = bcrypt.genSaltSync(saltRound)
-    bcrypt.hashSync(password, salt)
+    // console.log('salt', salt);
+    return bcrypt.hashSync(password, salt)
 }

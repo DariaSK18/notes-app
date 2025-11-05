@@ -6,6 +6,7 @@ import { checkSchema, validationResult, matchedData } from "express-validator";
 import passport from "passport";
 import "../strategies/local-strategy.mjs";
 import { User } from "../mongoose/schemas/user.mjs";
+import { hashPassword } from "../utils/helpers.mjs";
 
 const router = Router();
 
@@ -44,10 +45,11 @@ router.post(
     if (!result.isEmpty())
       return response.status(400).send({ errors: result.array() });
     const data = matchedData(request);
-    console.log(data);
-
+    // console.log('data', data);
+    data.password = hashPassword(data.password)
+    // console.log('hashed p data',data);
     const newUser = new User(data)
-    console.log(newUser);
+    // console.log(newUser);
     
     try {
       const savedUser = await newUser.save()
