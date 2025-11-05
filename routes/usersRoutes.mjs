@@ -3,6 +3,8 @@ import { users } from "../constants.mjs";
 import { resolveItemById, resolveIndexById } from "../utils/midlewares.mjs";
 import { validationSchemaUser } from "../utils/validationShemas.mjs";
 import { checkSchema, validationResult, matchedData } from "express-validator";
+import passport from "passport";
+import "../strategies/local-strategy.mjs";
 
 const router = Router();
 
@@ -66,25 +68,34 @@ router.delete(
   }
 );
 
-router.post(
-  "/api/auth",
-  checkSchema(validationSchemaUser),
-  (request, response) => {
-    const {
-      body: { userName, password },
-    } = request;
-    const findUser = users.find((user) => user.userName === userName);
-    if (!findUser || findUser.password !== password)
-      return response.status(401).send({ msg: "Bad credentials" });
-    request.session.user = findUser;
-    return response.status(200).send(findUser);
-  }
-);
+// router.post(
+//   "/api/auth",
+//   checkSchema(validationSchemaUser),
+//   (request, response) => {
+//     const {
+//       body: { userName, password },
+//     } = request;
+//     const findUser = users.find((user) => user.userName === userName);
+//     if (!findUser || findUser.password !== password)
+//       return response.status(401).send({ msg: "Bad credentials" });
+//     request.session.user = findUser;
+//     return response.status(200).send(findUser);
+//   }
+// );
+
+router.post("/api/auth", passport.authenticate('local'), (request, response) => {
+  response.sendStatus(200)
+})
 
 router.get("/api/auth/status", (request, response) => {
-  return request.session.user
-    ? response.status(200).send(request.session.user)
-    : response.status(401).send({ msg: "Not Authenticated" });
+  // return request.session.user
+  //   ? response.status(200).send(request.session.user)
+  //   : response.status(401).send({ msg: "Not Authenticated" });
+  console.log(request.user);
+  console.log(request.session);
+  
+  
+  return request.user ? response.status(200).send(request.user) : response.status(401).send({ msg: "Not Authenticated" });
 });
 
 export default router;
