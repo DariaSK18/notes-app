@@ -36,6 +36,7 @@ router.get("/api/users/:id", resolveItemById(users), (request, response) => {
   response.send(item);
 });
 
+// --- user registration and saving to database ---
 router.post(
   "/api/users",
   checkSchema(validationSchemaUser),
@@ -98,6 +99,8 @@ router.delete(
 //   }
 // );
 
+
+// --- user login ---
 router.post(
   "/api/auth",
   passport.authenticate("local"),
@@ -106,6 +109,7 @@ router.post(
   }
 );
 
+// --- user authentification check ---
 router.get("/api/auth/status", (request, response) => {
   // return request.session.user
   //   ? response.status(200).send(request.session.user)
@@ -118,6 +122,7 @@ router.get("/api/auth/status", (request, response) => {
     : response.status(401).send({ msg: "Not Authenticated" });
 });
 
+// --- user logout ---
 router.post("/api/auth/logout", (request, response) => {
   if (!request.user) return response.sendStatus(401);
   request.logout((err) => {
