@@ -74,13 +74,19 @@ router.patch("/api/users/:id", resolveIndexById(users), (request, response) => {
   return response.sendStatus(200);
 });
 
+// --- delete user account (only owned) and logout ---
 router.delete(
-  "/api/users/:id",
-  resolveIndexById(users),
-  (request, response) => {
-    const { findIndex } = request;
-    users.splice(findIndex, 1);
-    return response.sendStatus(200);
+  "/api/users/me", async (request, response) => {
+    if(!request.user) return response.sendStatus(401)
+    try {
+      await User.findByIdAndDelete(request.user._id)
+      request.logout(err => {
+        if(err) return response.sendStatus(400)
+        response.send(200)
+      })
+    } catch (error) {
+      console.log(`Error: ${error}`);
+    }
   }
 );
 
