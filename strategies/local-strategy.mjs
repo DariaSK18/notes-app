@@ -2,6 +2,7 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 import { users } from "../constants.mjs";
 import { User } from "../mongoose/schemas/user.mjs";
+import { compareHashedPassword } from "../utils/helpers.mjs";
 
 passport.serializeUser((user, done) => {
     console.log('Inside serializeUser', user);
@@ -28,7 +29,7 @@ export default passport.use(
       const findUser = await User.findOne({userName})
       // const findUser = users.find((user) => user.userName === userName);
       if (!findUser) throw new Error("User not found");
-      if (findUser.password !== password) throw new Error("Invalid credentials");
+      if (compareHashedPassword(!findUser.password, password)) throw new Error("Invalid credentials");
       done(null, findUser);
     } catch (error) {
       done(error, null);
