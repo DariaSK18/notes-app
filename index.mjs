@@ -7,7 +7,7 @@ import passport from "passport";
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
 import { Note } from "./mongoose/schemas/note.mjs";
-import { isAuth } from "./utils/midlewares.mjs";
+import { isAuth, isUser } from "./utils/midlewares.mjs";
 
 const app = express();
 
@@ -41,19 +41,20 @@ app.use(passport.session());
 
 app.use(routes);
 
-app.get("/", (request, response) => {
+app.get("/", isUser, (request, response) => {
   response.render("index", { title: "Home" });
 });
-app.get("/login", (request, response) => {
+app.get("/login", isUser, (request, response) => {
   response.render("login", { title: "Login" });
 });
-app.get("/register", (request, response) => {
+app.get("/register", isUser, (request, response) => {
   response.render("register", { title: "Register" });
 });
-app.get("/create-note", isAuth, (request, response) => {
+app.get("/create-note", isAuth, isUser, (request, response) => {
+  if (!request.user) return response.redirect("/login");
   response.render("create-note", { title: "Create note" });
 });
-app.get("/dashboard", isAuth, async (request, response) => {
+app.get("/dashboard", isAuth, isUser, async (request, response) => {
   if (!request.user) return response.redirect("/login");
   try {
     const notes = await Note.find({ userId: request.user._id }).lean();
@@ -68,10 +69,12 @@ app.get("/dashboard", isAuth, async (request, response) => {
     response.status(500).send("Server Error");
   }
 });
-app.get("/profile", isAuth, (request, response) => {
+app.get("/profile", isAuth, isUser, (request, response) => {
+  if (!request.user) return response.redirect("/login");
   response.render("profile", { title: "Profile" });
 });
-app.get("/change-psw", isAuth, (request, response) => {
+app.get("/change-psw", isAuth, isUser, (request, response) => {
+  if (!request.user) return response.redirect("/login");
   response.render("change-psw", { title: "Change Password" });
 });
 

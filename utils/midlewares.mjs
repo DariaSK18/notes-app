@@ -27,6 +27,11 @@ export const resolveItemById = (array) => (request, response, next) => {
 };
 
 export const isAuth = (request, response, next) => {
-  if(request.isAuthenticated()) return next()
-  response.redirect('/login')
-}
+  if (request.isAuthenticated()) return next();
+  response.redirect("/login");
+};
+
+export const isUser = (request, response, next) => {
+  response.locals.user = request.user || null;
+  next();
+};
