@@ -1,11 +1,12 @@
-const form = document.getElementById("registerForm");
+const registerform = document.getElementById("registerForm");
+const noteForm = document.getElementById('noteForm')
 const logoutBtn = document.getElementById("logout");
 
-if (form) {
-  form.addEventListener("submit", async (e) => {
+if (registerform) {
+  registerform.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    console.log(form);
+    console.log(registerform);
 
     const userName = form.userName.value.trim();
     const password = form.password.value.trim();
@@ -59,3 +60,4 @@ if (logoutBtn) {
     }
   });
 }
+
