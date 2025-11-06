@@ -82,7 +82,7 @@ if (noteForm) {
       });
       if (response.ok) {
         const note = await response.json();
-        noteForm.reser();
+        noteForm.reset();
         window.location.href = "/dashboard";
       } else {
         const error = await response.json();

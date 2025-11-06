@@ -4,6 +4,8 @@
 // }
 // app.use(loggingMidleware)
 
+import { request, response } from "express";
+
 export const resolveIndexById = (array) => (request, response, next) => {
   const {
     params: { id },
@@ -23,3 +25,8 @@ export const resolveItemById = (array) => (request, response, next) => {
   request.item = item;
   next();
 };
+
+export const isAuth = (request, response, next) => {
+  if(request.isAuthenticated()) return next()
+  response.redirect('/login')
+}

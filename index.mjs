@@ -6,6 +6,8 @@ import session from "express-session";
 import passport from "passport";
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
+import { Note } from "./mongoose/schemas/note.mjs";
+import { isAuth } from "./utils/midlewares.mjs";
 
 const app = express();
 
@@ -48,16 +50,28 @@ app.get("/login", (request, response) => {
 app.get("/register", (request, response) => {
   response.render("register", { title: "Register" });
 });
-app.get("/create-note", (request, response) => {
+app.get("/create-note", isAuth, (request, response) => {
   response.render("create-note", { title: "Create note" });
 });
-app.get("/dashboard", (request, response) => {
-  response.render("dashboard", { title: "Dashboard" });
+app.get("/dashboard", isAuth, async (request, response) => {
+  if (!request.user) return response.redirect("/login");
+  try {
+    const notes = await Note.find({ userId: request.user._id }).lean();
+    console.log("notes", notes, request.user._id);
+    response.render("dashboard", {
+      title: "Dashboard",
+      user: request.user,
+      notes: notes,
+    });
+  } catch (error) {
+    console.log(error);
+    response.status(500).send("Server Error");
+  }
 });
-app.get("/profile", (request, response) => {
+app.get("/profile", isAuth, (request, response) => {
   response.render("profile", { title: "Profile" });
 });
-app.get("/change-psw", (request, response) => {
+app.get("/change-psw", isAuth, (request, response) => {
   response.render("change-psw", { title: "Change Password" });
 });
 
