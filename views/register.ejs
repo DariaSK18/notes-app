@@ -2,22 +2,22 @@
 <body>
   <%- include('blocks/header') -%>
   <h2>Create Account</h2>
-  <form action="/register" method="post">
-    <label
+  <form id="registerForm" action="/api/users" method="post">
+    <!-- <label
       >Name: <input name="username" type="text" placeholder="Name"
-    /></label>
+    /></label> -->
     <label
-      >Email: <input name="email" type="email" placeholder="Email"
-    /></label>
+      >Username: <input name="userName" type="text" placeholder="userName"
+    required /></label>
     <label
       >Password:
-      <input name="password" type="password" placeholder="Password" /></label
+      <input name="password" type="password" placeholder="Password" required /></label
     >
     <label
       >Confirm Password: <input
-        name="confirmed-password"
+        name="confirmation"
         type="password"
-        placeholder="Confirm password" /></label
+        placeholder="Confirm password" required /></label
     >
     <button type="submit">Sign Up</button>
   </form>
