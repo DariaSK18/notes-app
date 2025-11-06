@@ -1,42 +1,12 @@
-// console.log('hello')
-// const os = require('os')
-// let res = os.platform()
-// console.log(res);
-// const https = require('https')
-// const fs = require('fs')
-
-// const server = https.createServer((req, res) => {
-//     res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'})
-//     const stream = fs.createReadStream('index.ejs')
-//     stream.pipe(res)
-//     // res.end()
-// })
-
-// server.listen(PORT, HOST, () => {
-//     console.log(`Server is running: https://${HOST}:${PORT}`);
-
-// })
-
 import express, { request, response } from "express";
-// import { users, notes } from "./constants.mjs";
-// import {
-//   query,
-//   validationResult,
-//   body,
-//   matchedData,
-//   checkSchema,
-// } from "express-validator";
-// import { validationSchema } from "./utils/validationShemas.mjs";
 import routes from "./routes/index.mjs";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import session from "express-session";
 import passport from "passport";
-// import "./strategies/local-strategy.mjs";
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
 
-// const express = require('express')
 const app = express();
 
 mongoose
@@ -70,10 +40,6 @@ app.use(passport.session());
 app.use(routes);
 
 app.get("/", (request, response) => {
-  // console.log(request.session);
-  // console.log(request.sessionID);
-  // request.session.visited = true
-  // response.cookie("sessionId", "world", { maxAge: 60000, path: "/", signed: true });
   response.render("index", { title: "Home" });
 });
 app.get("/login", (request, response) => {
@@ -82,13 +48,15 @@ app.get("/login", (request, response) => {
 app.get("/register", (request, response) => {
   response.render("register", { title: "Register" });
 });
-
-// app.post("/register", (request, response) => {
-//   const test = request.body.test;
-//   console.log(request.body, request.body.test);
-//   if (test === "") return response.redirect("login");
-//   else return response.redirect("/");
-// });
+app.get("/create-note", (request, response) => {
+  response.render("create-note", { title: "Create note" });
+});
+app.get("/dashboard", (request, response) => {
+  response.render("dashboard", { title: "Dashboard" });
+});
+app.get("/profile", (request, response) => {
+  response.render("profile", { title: "Profile" });
+});
 
 const PORT = process.env.PORT || 3000;
 const HOST = "localhost";
