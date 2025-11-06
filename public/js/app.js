@@ -1,6 +1,8 @@
 const registerform = document.getElementById("registerForm");
-const noteForm = document.getElementById('noteForm')
+const noteForm = document.getElementById("noteForm");
 const logoutBtn = document.getElementById("logout");
+const deleteBtn = document.getElementById("delete");
+const changePswBtn = document.getElementById("changePsw");
 
 if (registerform) {
   registerform.addEventListener("submit", async (e) => {
@@ -8,9 +10,9 @@ if (registerform) {
 
     console.log(registerform);
 
-    const userName = form.userName.value.trim();
-    const password = form.password.value.trim();
-    const confirmation = form.confirmation.value.trim();
+    const userName = registerform.userName.value.trim();
+    const password = registerform.password.value.trim();
+    const confirmation = registerform.confirmation.value.trim();
     console.log(userName, password, confirmation);
 
     if (!userName || !password || !confirmation) {
@@ -33,7 +35,7 @@ if (registerform) {
         console.log(response.ok);
         const user = await response.json();
         console.log(user);
-        form.reset();
+        registerform.reset();
         window.location.href = "/login";
       } else {
         const error = await response.json();
@@ -61,3 +63,33 @@ if (logoutBtn) {
   });
 }
 
+if (noteForm) {
+  noteForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const title = noteForm.title.value.trim();
+    const description = noteForm.description.value.trim();
+
+    if (!title || !description) {
+      alert("all fields are required");
+      return;
+    }
+    const formData = { title, description };
+    try {
+      const response = await fetch("/api/notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        const note = await response.json();
+        noteForm.reser();
+        window.location.href = "/dashboard";
+      } else {
+        const error = await response.json();
+        throw new Error(`Error ${error}`);
+      }
+    } catch (error) {
+      console.log(`Error: ${error}`);
+    }
+  });
+}
