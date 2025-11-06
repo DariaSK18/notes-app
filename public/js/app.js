@@ -2,7 +2,7 @@ const registerform = document.getElementById("registerForm");
 const noteForm = document.getElementById("noteForm");
 const logoutBtn = document.getElementById("logout");
 const deleteBtn = document.getElementById("delete");
-const changePswBtn = document.getElementById("changePsw");
+const changePswForm = document.getElementById("changePswForm");
 
 if (registerform) {
   registerform.addEventListener("submit", async (e) => {
@@ -108,12 +108,42 @@ if (deleteBtn) {
   });
 }
 
-if(changePswBtn) {
-  changePswBtn.addEventListener('click', async () => {
-    try {
-      
-    } catch (error) {
-      
+if (changePswForm) {
+  changePswForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const currentPsw = changePswForm.currentPsw.value.trim();
+    const newPsw = changePswForm.newPsw.value.trim();
+    const confirmPsw = changePswForm.confirmPsw.value.trim();
+
+    if (!currentPsw || !newPsw || !confirmPsw) {
+      alert("All fields are required");
+      return;
     }
-  })
+    if (newPsw !== confirmPsw) {
+      alert("confirmd password doesnt match");
+    }
+
+    // как проверить currentPsw
+
+    const formData = { currentPsw, password: newPsw };
+    try {
+      const response = await fetch("/api/users/me", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        // const psw = await response.json();
+        // alert("successfully changed");
+        changePswForm.reset();
+        window.location.href = "/dashboard";
+      } else {
+        const error = await response.json();
+        throw new Error(`Error ${error}`);
+      }
+    } catch (error) {
+      console.log(`Error: ${error}`);
+    }
+  });
 }

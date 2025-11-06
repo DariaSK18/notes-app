@@ -57,6 +57,9 @@ app.get("/dashboard", (request, response) => {
 app.get("/profile", (request, response) => {
   response.render("profile", { title: "Profile" });
 });
+app.get("/change-psw", (request, response) => {
+  response.render("change-psw", { title: "Change Password" });
+});
 
 const PORT = process.env.PORT || 3000;
 const HOST = "localhost";

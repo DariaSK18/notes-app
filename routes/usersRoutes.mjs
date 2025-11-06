@@ -10,6 +10,7 @@ import passport from "passport";
 import "../strategies/local-strategy.mjs";
 import { User } from "../mongoose/schemas/user.mjs";
 import { hashPassword } from "../utils/helpers.mjs";
+import bcrypt from "bcrypt";
 
 const router = Router();
 
@@ -82,9 +83,19 @@ router.patch(
       return response.status(400).send({ errors: result.array() });
     const data = matchedData(request);
     data.password = hashPassword(data.password);
+    // console.log(data, body.currentPsw);
+    
 
     if (!request.user) return response.sendStatus(401);
     try {
+      const user = await User.findById(request.user._id)
+      // console.log(user);
+      if(!user) return response.sendStatus(404)
+      const isMatch = await bcrypt.compare( body.currentPsw, user.password)
+    // console.log(isMatch);
+    // console.log(body.currentPsw, user.password);
+    
+    if(!isMatch) return response.status(400).send({msg: 'Current password incorrect'})
       const updatedUser = await User.findByIdAndUpdate(request.user._id, data, {
         new: true,
       });
