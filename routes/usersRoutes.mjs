@@ -107,7 +107,7 @@ router.delete("/api/users/me", async (request, response) => {
     await User.findByIdAndDelete(request.user._id);
     request.logout((err) => {
       if (err) return response.sendStatus(400);
-      response.send(200);
+      response.sendStatus(200);
     });
   } catch (error) {
     console.log(`Error: ${error}`);

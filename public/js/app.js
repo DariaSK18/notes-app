@@ -93,3 +93,27 @@ if (noteForm) {
     }
   });
 }
+
+if (deleteBtn) {
+  deleteBtn.addEventListener("click", async () => {
+    try {
+      const response = await fetch("/api/users/me", {
+        method: "DELETE",
+        credentials: "same-origin",
+      });
+      if (response.ok) window.location.href = "/register";
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}
+
+if(changePswBtn) {
+  changePswBtn.addEventListener('click', async () => {
+    try {
+      
+    } catch (error) {
+      
+    }
+  })
+}
