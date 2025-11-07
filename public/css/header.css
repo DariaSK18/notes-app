@@ -5,7 +5,7 @@
 }
 .header__block {
     display: flex;
-    padding: 1rem;
+    padding: 1rem 2rem;
     gap: 1rem;
     justify-content: space-between;
     position: fixed;
@@ -25,14 +25,18 @@
     font-weight: 500;
 }
 .header__logo {
+    flex-shrink: 0;
 }
 
 .header__title {
 }
-
+.header__navigation{
+    width: 100%;
+}
 .header__navigation ul {
     display: flex;
-    gap: 1rem;
+    gap: 3rem;
+    width: 100%;
     justify-content: center;
     flex-grow: 1;
 }
