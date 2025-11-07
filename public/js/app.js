@@ -3,6 +3,7 @@ const noteForm = document.getElementById("noteForm");
 const logoutBtn = document.getElementById("logout");
 const deleteBtn = document.getElementById("delete");
 const changePswForm = document.getElementById("changePswForm");
+const loginForm = document.getElementById('loginForm')
 
 if (registerform) {
   registerform.addEventListener("submit", async (e) => {
@@ -123,9 +124,6 @@ if (changePswForm) {
     if (newPsw !== confirmPsw) {
       alert("confirmd password doesnt match");
     }
-
-    // как проверить currentPsw
-
     const formData = { currentPsw, password: newPsw };
     try {
       const response = await fetch("/api/users/me", {
@@ -146,4 +144,29 @@ if (changePswForm) {
       console.log(`Error: ${error}`);
     }
   });
+}
+
+if(loginForm) {
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const userName = loginForm.userName.value.trim()
+    const password = loginForm.password.value.trim()
+    const formData = {userName, password}
+    try {
+      const response = await fetch("/api/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        loginForm.reset();
+        window.location.href = "/dashboard";
+      } else {
+        const error = await response.json();
+        alert(`Error ${error.message}` || 'Inalid username or password');
+      }
+    } catch (error) {
+      console.log(`Error: ${error}`);
+    }
+  })
 }

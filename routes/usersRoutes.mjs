@@ -84,18 +84,18 @@ router.patch(
     const data = matchedData(request);
     data.password = hashPassword(data.password);
     // console.log(data, body.currentPsw);
-    
 
     if (!request.user) return response.sendStatus(401);
     try {
-      const user = await User.findById(request.user._id)
+      const user = await User.findById(request.user._id);
       // console.log(user);
-      if(!user) return response.sendStatus(404)
-      const isMatch = await bcrypt.compare( body.currentPsw, user.password)
-    // console.log(isMatch);
-    // console.log(body.currentPsw, user.password);
-    
-    if(!isMatch) return response.status(400).send({msg: 'Current password incorrect'})
+      if (!user) return response.sendStatus(404);
+      const isMatch = await bcrypt.compare(body.currentPsw, user.password);
+      // console.log(isMatch);
+      // console.log(body.currentPsw, user.password);
+
+      if (!isMatch)
+        return response.status(400).send({ msg: "Current password incorrect" });
       const updatedUser = await User.findByIdAndUpdate(request.user._id, data, {
         new: true,
       });
@@ -143,13 +143,30 @@ router.delete("/api/users/me", async (request, response) => {
 // --- user login ---
 router.post(
   "/api/auth",
-  passport.authenticate("local", {
-    failureRedirect: '/login',
-    successRedirect: '/',
-  })
-  // (request, response) => {
-  //   response.sendStatus(200)
-  // }
+  (request, response, next) => {
+    passport.authenticate("local", (err, user) => {
+      console.log(user);
+
+      if (err) {
+        console.log(err);
+        return response.status(500).send({ msg: "Server error" });
+      }
+      if (!user)
+        return response.status(401).send({ msg: "Invalid credentials" });
+      request.logIn(user, (err) => {
+        if (err) return next(err);
+        return response.send({ msg: "Successfully loged in" });
+      });
+    })(request, response, next)
+    // response.status(200)
+  }
+  // passport.authenticate(
+  //   "local",
+  //   // {
+  //   //   failureRedirect: "/login",
+  //   //   successRedirect: "/",
+  //   // }
+  // )
 );
 
 // --- user authentification check ---
