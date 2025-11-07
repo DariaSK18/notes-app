@@ -16,7 +16,7 @@ export const validationSchema = {
     isLength: {
       options: {
         min: 2,
-        max: 50,
+        max: 300,
       },
       errorMessage: "Must be at least 2-50 chars",
     },
@@ -42,7 +42,7 @@ export const validationSchemaNotePatch = {
     isLength: {
       options: {
         min: 2,
-        max: 50,
+        max: 300,
       },
       errorMessage: "Must be at least 2-50 chars",
     },
