@@ -27,12 +27,15 @@
         align-items: stretch;
         text-align: center;
         flex-basis: 20rem;
+        min-height: 10rem;
         h4{
             font-size: 1.2rem;
             font-weight: 600;
         }
         .main__content{
             flex-grow: 1;
+            height: 5rem;
+            overflow-y: scroll;
         }
         .main_btns {
             margin-top: 1rem;

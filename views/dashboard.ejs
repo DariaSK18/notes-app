@@ -15,7 +15,7 @@
                 <% notes.forEach(note => { %>
                   <li id="<%= note._id %>">
                     <h4><%= note.title %></h4>
-                    <div class="main__content"><%= note.description %></p>
+                    <p class="main__content"><%= note.description %></p>
                     <div class="main_btns">
                       <button class="editNote card-btn">Edit</button>
                       <button class="deleteNote card-btn">Delete</button>
