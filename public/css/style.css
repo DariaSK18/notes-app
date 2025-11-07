@@ -1,14 +1,14 @@
+/* imports */
 @import url("./reset.css");
+
+
 /* Main styles */
 
-body {
-    background: rgb(241, 246, 209);
-}
 
 body {
   font-family: "Nunito", "Roboto";
   font-size: 1rem;
-  /* background: var(--body-bg-color); */
+  background: rgb(161, 200, 103);
 }
 
 [class*=__container] {
@@ -24,5 +24,4 @@ body {
 }
 .wrapper .main {
   flex-grow: 1;
-  padding-top: 6rem;
 }

@@ -1,20 +1,32 @@
 <%- include('blocks/head') -%>
 <body>
-    <div class="wrapper">
-        <%- include('blocks/header') -%>
-        <div class="main">
-            <h2>Log In</h2>
-            <form id="loginForm" >
-                <label>
-                    Username: 
-                    <input type="text" name="userName" placeholder="Username" required>
-                </label>
-                <label>
-                    Password: 
-                    <input type="password" name="password" placeholder="Password" required>
-                </label>
-                <button type="submit">LogIn</button>
-            </form>
-        </div>
+  <div class="wrapper">
+    <%- include('blocks/header') -%>
+    <div class="main">
+      <div class="main__container">
+        <h2>Log In</h2>
+        <form id="loginForm">
+          <label>
+            Username:
+            <input
+              type="text"
+              name="userName"
+              placeholder="Username"
+              required
+            />
+          </label>
+          <label>
+            Password:
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+          </label>
+          <button type="submit">LogIn</button>
+        </form>
+      </div>
     </div>
+  </div>
 </body>

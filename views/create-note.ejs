@@ -3,22 +3,24 @@
   <div class="wrapper">
     <%- include('blocks/header') -%>
     <div class="main">
-      <form id="noteForm" action="/api/notes" method="POST">
-        <label>
-          Title:
-          <input type="text" name="title" placeholder="Title" required />
-        </label>
-        <label>
-          Description:
-          <textarea
-            type="text"
-            name="description"
-            placeholder="Description"
-            required
-          ></textarea>
-        </label>
-        <button type="submit">Add</button>
-      </form>
+      <div class="main__container">
+        <form id="noteForm" action="/api/notes" method="POST">
+          <label>
+            Title:
+            <input type="text" name="title" placeholder="Title" required />
+          </label>
+          <label>
+            Description:
+            <textarea
+              type="text"
+              name="description"
+              placeholder="Description"
+              required
+            ></textarea>
+          </label>
+          <button type="submit">Add</button>
+        </form>
+      </div>
     </div>
   </div>
 </body>

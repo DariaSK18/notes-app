@@ -3,6 +3,7 @@
   <div class="wrapper">
     <%- include('blocks/header') -%>
     <div class="main">
+      <div class="main__container">
       <h2>Welocome, <%= user.userName %>!</h2>
       <!-- display list -->
        <% if (notes.length === 0) { %>
@@ -19,6 +20,7 @@
               <% }) %>
           </ul>
           <% } %>
+        </div>
     </div>
   </div>
 </body>

@@ -3,26 +3,35 @@
   <div class="wrapper">
     <%- include('blocks/header') -%>
     <div class="main">
-      <h2>Create Account</h2>
-      <form id="registerForm" action="/api/users" method="post">
-        <!-- <label
-          >Name: <input name="username" type="text" placeholder="Name"
-        /></label> -->
-        <label
-          >Username: <input name="userName" type="text" placeholder="userName"
-        required /></label>
-        <label
-          >Password:
-          <input name="password" type="password" placeholder="Password" required /></label
-        >
-        <label
-          >Confirm Password: <input
-            name="confirmation"
-            type="password"
-            placeholder="Confirm password" required /></label
-        >
-        <button type="submit">Sign Up</button>
-      </form>
+      <div class="main__container">
+        <h2>Create Account</h2>
+        <form id="registerForm" action="/api/users" method="post">
+          <!-- <label
+            >Name: <input name="username" type="text" placeholder="Name"
+          /></label> -->
+          <label
+            >Username:
+            <input name="userName" type="text" placeholder="userName" required
+          /></label>
+          <label
+            >Password:
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              required
+          /></label>
+          <label
+            >Confirm Password:
+            <input
+              name="confirmation"
+              type="password"
+              placeholder="Confirm password"
+              required
+          /></label>
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
     </div>
   </div>
 </body>
