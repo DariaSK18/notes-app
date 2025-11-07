@@ -1,28 +1,32 @@
 <header class="header">
-  <section class="header__logo">
-    <div class="header__title">Noted 𓂃✍︎</div>
-  </section>
-  <nav class="header__navigation">
-    <ul>
-      <li><a href="../dashboard">Dashboard</a></li>
-      <li><a href="../create-note">Create Note</a></li>
-    </ul>
-  </nav>
-  <section class="header__user">
-    <% if (!user) { %>
-    <div class="header__register">
-      <a href="../register">Register</a>
+  <div class="header__container">
+    <div class="header__block">
+      <section class="header__logo">
+        <div class="header__title">Noted 𓂃✍︎</div>
+      </section>
+      <nav class="header__navigation">
+        <ul>
+          <li><a href="../dashboard">Dashboard</a></li>
+          <li><a href="../create-note">Create Note</a></li>
+        </ul>
+      </nav>
+      <section class="header__user">
+        <% if (!user) { %>
+        <div class="header__register">
+          <a href="../register">Register</a>
+        </div>
+        <div class="header__login">
+          <a href="../login">Login</a>
+        </div>
+        <% } else { %>
+        <div class="header__logout">
+          <button id="logout">Logout</button>
+        </div>
+        <div class="header__profile">
+          <a href="../profile">Profile</a>
+        </div>
+        <% } %>
+      </section>
     </div>
-    <div class="header__login">
-      <a href="../login">Login</a>
-    </div>
-    <% } else { %>
-    <div class="header__logout">
-      <button id="logout">Logout</button>
-    </div>
-    <div class="header__profile">
-      <a href="../profile">Profile</a>
-    </div>
-    <% } %>
-  </section>
+  </div>
 </header>

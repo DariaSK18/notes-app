@@ -1,20 +1,24 @@
 <%- include('blocks/head') -%>
 <body>
-  <%- include('blocks/header') -%>
-  <h2>Welocome, <%= user.userName %>!</h2>
-  <!-- display list -->
-   <% if (notes.length === 0) { %>
-    <p>No notes yet. <a href="/create-note">Create your first one!</a></p>
-    <% } else { %>
-      <ul>
-        <% notes.forEach(note => { %>
-          <li id="<%= note._id %>">
-            <h4><%= note.title %></h4>
-            <p><%= note.description %></p>
-            <button class="editNote">Edit</button>
-            <button class="deleteNote">Delete</button>
-          </li> 
-          <% }) %>
-      </ul>
-      <% } %>
+  <div class="wrapper">
+    <%- include('blocks/header') -%>
+    <div class="main">
+      <h2>Welocome, <%= user.userName %>!</h2>
+      <!-- display list -->
+       <% if (notes.length === 0) { %>
+        <p>No notes yet. <a href="/create-note">Create your first one!</a></p>
+        <% } else { %>
+          <ul>
+            <% notes.forEach(note => { %>
+              <li id="<%= note._id %>">
+                <h4><%= note.title %></h4>
+                <div><%= note.description %></p>
+                <button class="editNote">Edit</button>
+                <button class="deleteNote">Delete</button>
+              </li> 
+              <% }) %>
+          </ul>
+          <% } %>
+    </div>
+  </div>
 </body>

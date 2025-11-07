@@ -1,6 +1,28 @@
+@import url("./reset.css");
 /* Main styles */
 
 body {
     background: rgb(241, 246, 209);
 }
 
+body {
+  font-family: "Nunito", "Roboto";
+  font-size: 1rem;
+  /* background: var(--body-bg-color); */
+}
+
+[class*=__container] {
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.wrapper .main {
+  flex-grow: 1;
+  padding-top: 6rem;
+}
