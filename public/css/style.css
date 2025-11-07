@@ -3,15 +3,16 @@
 @import url("./header.css");
 @import url("./login.css");
 @import url("./register.css");
+@import url("./create-note.css");
 
 /* Main styles */
 
 body {
     font-family: "Nunito", "Roboto";
     font-size: 1rem;
-    background: #2b2b2b;
-    /* background: #2a7b9b; */
-    /* background: linear-gradient(35deg, rgba(42, 123, 155, 1) 18%, rgba(35, 135, 77, 1) 56%, rgba(6, 120, 4, 1) 100%); */
+    /* background: #2b2b2b; */
+    background: #2a7b9b;
+    background: linear-gradient(35deg, rgba(42, 123, 155, 1) 18%, rgba(35, 135, 77, 1) 56%, rgba(6, 120, 4, 1) 100%);
     color: whitesmoke;
     text-shadow: 0 0 8px rgba(46, 46, 46, 0.7);
 }
@@ -20,6 +21,7 @@ body {
     max-width: 75rem;
     margin: 0 auto;
     padding: 1rem;
+    padding-top: 2rem;
 }
 
 .wrapper {
@@ -33,11 +35,10 @@ body {
 }
 .main {
     flex-grow: 1;
-    padding-top: 3rem;
     width: 100%;
     margin: 0 auto;
 }
-button {
+.btn {
     text-shadow: 0 0 8px rgba(46, 46, 46, 0.7);
     color: whitesmoke;
     border: 0.1rem solid hsl(0, 0%, 100%, 0.3);
@@ -47,12 +48,13 @@ button {
     font-size: 1.3rem;
     max-width: 60%;
     align-self: center;
+    text-align: center;
 }
 h2 {
     font-size: 2rem;
     font-weight: 600;
 }
-input {
+input, textarea {
     width: 100%;
     padding: 0.5rem;
     margin-top: 0.5rem;
@@ -60,6 +62,7 @@ input {
     border-radius: 0.5rem;
     background: hsl(0, 0%, 100%, 0.1);
     font-weight: 500;
+    color: whitesmoke;
 }
 form {
     display: flex;
@@ -68,6 +71,6 @@ form {
     justify-content: center;
     align-items: stretch;
 }
-input::placeholder {
+input::placeholder, textarea::placeholder {
     color: whitesmoke;
 }
