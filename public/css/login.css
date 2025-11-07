@@ -19,28 +19,28 @@
     color: whitesmoke;
     font-weight: 500;
 
-    form {
+    /* form {
         display: flex;
         gap: 1rem;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-    }
-    input {
+    } */
+    /* input {
         width: 100%;
         padding: 0.5rem;
         margin-top: 0.5rem;
         border: 0.1rem solid hsl(0, 0%, 100%, 0.3);
         border-radius: 0.5rem;
-        background: hsl(0, 0%, 100%, 0.1);
+        background: hsl(0, 0%, 100%, 0.1); */
         /* backdrop-filter: blur(0.01rem); */
         /* box-shadow: inset 0 0 0.5rem 0.06rem hsl(0, 0%, 100%, 0.2); */
         /* text-shadow: 0 0 8px rgba(46, 46, 46, 0.7); */
         /* color: whitesmoke; */
-        font-weight: 500;
+        /* font-weight: 500;
     }
     input::placeholder {
-        color: whitesmoke;
+        color: whitesmoke; */
         /* text-shadow: 0 0 8px rgba(46, 46, 46, 0.7); */
-    }
+    /* } */
 }
