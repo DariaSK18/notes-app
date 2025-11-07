@@ -1,5 +1,6 @@
 /* imports */
 @import url("./reset.css");
+@import url("./header.css");
 
 /* Main styles */
 
@@ -14,6 +15,7 @@ background: linear-gradient(35deg, rgba(42, 123, 155, 1) 18%, rgba(35, 135, 77, 
     max-width: 75rem;
     margin: 0 auto;
     padding: 1rem;
+    /* overflow: hidden; */
 }
 
 .wrapper {
