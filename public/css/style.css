@@ -1,27 +1,26 @@
 /* imports */
 @import url("./reset.css");
 
-
 /* Main styles */
 
-
 body {
-  font-family: "Nunito", "Roboto";
-  font-size: 1rem;
-  background: rgb(161, 200, 103);
+    font-family: "Nunito", "Roboto";
+    font-size: 1rem;
+    background: #2A7B9B;
+background: linear-gradient(35deg, rgba(42, 123, 155, 1) 18%, rgba(35, 135, 77, 1) 56%, rgba(6, 120, 4, 1) 100%);
 }
 
-[class*=__container] {
-  max-width: 75rem;
-  margin: 0 auto;
-  padding: 1rem;
+[class*="__container"] {
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: 1rem;
 }
 
 .wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 .wrapper .main {
-  flex-grow: 1;
+    flex-grow: 1;
 }

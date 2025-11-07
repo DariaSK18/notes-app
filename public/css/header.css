@@ -1,7 +1,7 @@
 /* header styles */
 .header {
     .header__block {
-
+        display: flex;
     }
     .header__logo {
     }
