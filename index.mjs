@@ -9,15 +9,15 @@ import MongoStore from "connect-mongo";
 import { Note } from "./mongoose/schemas/note.mjs";
 import { isAuth, isUser } from "./utils/midlewares.mjs";
 
+dotenv.config();
+
 const app = express();
-const mongoUri = process.env.MONGO_URI || "mongodb://localhost/notes_app"
+const mongoUri = process.env.MONGO_URI || "mongodb://localhost/notes_app";
 
 mongoose
   .connect(mongoUri)
   .then(() => console.log("Connected to Database"))
   .catch((err) => console.log(`Error: ${err}`));
-
-dotenv.config();
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -33,7 +33,9 @@ app.use(
       maxAge: 60000 * 60, // one hour
     },
     store: MongoStore.create({
-      client: mongoose.connection.getClient(),
+      // client: mongoose.connection.getClient(),
+      mongoUrl: mongoUri,
+      collectionName: "session",
     }),
   })
 );
