@@ -37,12 +37,6 @@ router.post(
       console.log(err);
       return response.status(400).json({msg: "Bad request"});
     }
-
-    // const newUser = { id: crypto.randomUUID(), ...data };
-    // // console.log(newUser);
-    // users.push(newUser);
-    // // console.log(users);
-    // return response.status(201).send(newUser);
   }
 );
 
@@ -78,10 +72,6 @@ router.patch(
       console.log(`Error: ${error}`);
       return response.sendStatus(400);
     }
-
-    // const { body, findIndex } = request;
-    // users[findIndex] = { ...users[findIndex], ...body };
-    // return response.sendStatus(200);
   }
 );
 

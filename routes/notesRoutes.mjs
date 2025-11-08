@@ -56,14 +56,6 @@ router.post(
       userId: request.user._id,
     });
     console.log("newNote", newNote);
-    // const { userNotes } = request.session;
-    // if (!userNotes) return response.sendStatus(400);
-    // userNotes.push(newNote);
-    // const { body } = request;
-    // else request.session.userNotes = [newNote];
-    // console.log(request.session.userNotes);
-
-    // return response.status(201).send(userNotes);
     try {
       const savedNote = await newNote.save();
       console.log(savedNote);
