@@ -14,32 +14,6 @@ import bcrypt from "bcrypt";
 
 const router = Router();
 
-// router.get("/api/users", (request, response) => {
-//   // console.log(request.headers.cookie);
-//   // console.log(request.cookies);
-//   // console.log(request.signedCookies);
-//   // console.log(request.session);
-//   // console.log(request.sessionID);
-//   // request.sessionStore.get(request.session.id, (err, sessionData) => {
-//   //   if(err) {
-//   //     console.log(err)
-//   //     throw err
-//   //   }
-//   //   console.log(sessionData);
-//   // })
-//   // if (request.signedCookies.sessionId && request.signedCookies.sessionId === "world") return response.send(users);
-//   // else return response.status(403).send({msg: 'Wrong cookie'})
-//   if (request.session.user) return response.send(users);
-//   else return response.status(403).send({ msg: "Wrong cookie" });
-// });
-
-// router.get("/api/users/:id", resolveItemById(users), (request, response) => {
-//   const { item } = request;
-//   console.log("item", item);
-//   if (!item) return response.sendStatus(404);
-//   response.send(item);
-// });
-
 // --- user registration and saving to database ---
 router.post(
   "/api/users",
@@ -48,7 +22,7 @@ router.post(
     const result = validationResult(request);
     console.log(result);
     if (!result.isEmpty())
-      return response.status(400).send({ errors: result.array() });
+      return response.status(400).json({ errors: result.array() });
     const data = matchedData(request);
     // console.log('data', data);
     data.password = hashPassword(data.password);
@@ -58,10 +32,10 @@ router.post(
 
     try {
       const savedUser = await newUser.save();
-      return response.status(201).send(savedUser);
+      return response.status(201).json(savedUser);
     } catch (err) {
       console.log(err);
-      return response.sendStatus(400);
+      return response.status(400).json({msg: "Bad request"});
     }
 
     // const newUser = { id: crypto.randomUUID(), ...data };
@@ -124,21 +98,6 @@ router.delete("/api/users/me", async (request, response) => {
     console.log(`Error: ${error}`);
   }
 });
-
-// router.post(
-//   "/api/auth",
-//   checkSchema(validationSchemaUser),
-//   (request, response) => {
-//     const {
-//       body: { userName, password },
-//     } = request;
-//     const findUser = users.find((user) => user.userName === userName);
-//     if (!findUser || findUser.password !== password)
-//       return response.status(401).send({ msg: "Bad credentials" });
-//     request.session.user = findUser;
-//     return response.status(200).send(findUser);
-//   }
-// );
 
 // --- user login ---
 router.post(
