@@ -11,7 +11,7 @@
            <% if (notes.length === 0) { %>
             <p>No notes yet. <a href="/create-note">Create your first one!</a></p>
             <% } else { %>
-              <ul>
+              <ul class="notes-list">
                 <% notes.forEach(note => { %>
                   <li id="<%= note._id %>">
                     <h4><%= note.title %></h4>

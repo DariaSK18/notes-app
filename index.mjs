@@ -54,6 +54,11 @@ app.get("/create-note", isAuth, isUser, (request, response) => {
   if (!request.user) return response.redirect("/login");
   response.render("create-note", { title: "Create note" });
 });
+app.get("/create-note/:id", isAuth, isUser, (request, response) => {
+  if (!request.user) return response.redirect("/login");
+  const id = request.params.id;
+  response.render("create-note", { title: "Edit Note", id });
+});
 app.get("/dashboard", isAuth, isUser, async (request, response) => {
   if (!request.user) return response.redirect("/login");
   try {

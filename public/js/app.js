@@ -5,7 +5,7 @@ const deleteBtn = document.getElementById("delete");
 const changePswForm = document.getElementById("changePswForm");
 const loginForm = document.getElementById('loginForm')
 
-const deleteNoteBtn = document.getElementById('')
+const notesList = document.querySelector('.notes-list')
 
 if (registerform) {
   registerform.addEventListener("submit", async (e) => {
@@ -169,6 +169,41 @@ if(loginForm) {
       }
     } catch (error) {
       console.log(`Error: ${error}`);
+    }
+  })
+}
+
+if(notesList) {
+  notesList.addEventListener('click', async (e) => {
+    console.log(e.target);
+    const clicked = e.target
+    if(clicked.classList.contains('deleteNote')) {
+      const li =  clicked.closest('li')
+      const id = li.getAttribute('id')
+      // console.log(id);
+      try {
+        const response = await fetch(`/api/notes/${id}`, {
+          method: 'DELETE',
+          credentials: 'same-origin'
+        })
+        if (response.ok) window.location.href = "/dashboard";
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    else if(clicked.classList.contains('editNote')){
+      const li =  clicked.closest('li')
+      const id = li.getAttribute('id')
+      console.log(li);
+      window.location.href = `/create-note/${id}`
+      // try {
+      //   const response = await fetch(`/api/notes/${id}`, {
+      //     method: 'PATCH',
+
+      //   })
+      // } catch (error) {
+      //   console.log(error);
+      // }
     }
   })
 }
