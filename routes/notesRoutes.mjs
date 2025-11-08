@@ -9,47 +9,18 @@ import {
   validationSchema,
   validationSchemaNotePatch,
 } from "../utils/validationShemas.mjs";
-// import { notes } from "../constants.mjs";
-// import { resolveIndexById } from "../utils/midlewares.mjs";
 import { Note } from "../mongoose/schemas/note.mjs";
 
 const router = Router();
 
 // --- find all user's notes ---
 router.get(
-  "/api/notes",
-  // query("filter")
-  //   .isString()
-  //   .notEmpty()
-  //   .withMessage("Empty")
-  //   .isLength({ min: 2, max: 10 })
-  //   .withMessage("Must be at least 2-10 chars"),
-  async (request, response) => {
-    // console.log(request.userNotes);
-
+  "/api/notes", async (request, response) => {
     if (!request.user) return response.sendStatus(401);
-    // const result = validationResult(request);
-    // console.log("result", result);
-    // console.log(request.query);
-    // const {
-    //   query: { filter, value },
-    // } = request;
-    // if (filter && value)
-    //   return response.send(
-    //     notes.filter((note) =>
-    //       note[filter].toLocaleLowerCase().startsWith(value.toLocaleLowerCase())
-    //     )
-    //   );
-    // return response.send(notes);
     const notessList = await Note.find({ userId: request.user._id });
     return response.status(200).send(notessList ?? []);
   }
 );
-
-// router.get("/api/notes/:id", resolveIndexById(notes), (request, response) => {
-//   const { findIndex } = request;
-//   response.send(notes[findIndex]);
-// });
 
 // --- adding note to database conected to user ---
 router.post(
@@ -89,18 +60,6 @@ router.post(
     }
   }
 );
-
-// router.put("/api/notes/:id", resolveIndexById(notes), (request, response) => {
-//   const {
-//     body,
-//     findIndex,
-//     params: { id },
-//   } = request;
-//   console.log(id);
-//   //   console.log(findNoteIndex);
-//   notes[findIndex] = { id: id, ...body };
-//   return response.sendStatus(200);
-// });
 
 // --- edit note by id with extra check for current user ---
 router.patch(

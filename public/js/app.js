@@ -5,6 +5,8 @@ const deleteBtn = document.getElementById("delete");
 const changePswForm = document.getElementById("changePswForm");
 const loginForm = document.getElementById('loginForm')
 
+const deleteNoteBtn = document.getElementById('')
+
 if (registerform) {
   registerform.addEventListener("submit", async (e) => {
     e.preventDefault();
