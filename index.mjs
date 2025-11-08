@@ -10,9 +10,10 @@ import { Note } from "./mongoose/schemas/note.mjs";
 import { isAuth, isUser } from "./utils/midlewares.mjs";
 
 const app = express();
+const mongoUri = process.env.MONGO_URI || "mongodb://localhost/notes_app"
 
 mongoose
-  .connect("mongodb://localhost/notes_app")
+  .connect(mongoUri)
   .then(() => console.log("Connected to Database"))
   .catch((err) => console.log(`Error: ${err}`));
 
