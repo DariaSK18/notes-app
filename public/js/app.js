@@ -3,9 +3,9 @@ const noteForm = document.getElementById("noteForm");
 const logoutBtn = document.getElementById("logout");
 const deleteBtn = document.getElementById("delete");
 const changePswForm = document.getElementById("changePswForm");
-const loginForm = document.getElementById('loginForm')
+const loginForm = document.getElementById("loginForm");
 
-const notesList = document.querySelector('.notes-list')
+const notesList = document.querySelector(".notes-list");
 
 if (registerform) {
   registerform.addEventListener("submit", async (e) => {
@@ -67,6 +67,24 @@ if (logoutBtn) {
 }
 
 if (noteForm) {
+  const noteId = noteForm.dataset.id;
+  if (noteId) {
+    (async () => {
+      try {
+        const response = await fetch(`/api/notes/${noteId}`, {
+          method: "GET",
+          credentials: "same-origin",
+        });
+        if (response.ok) {
+          const note = await response.json();
+          noteForm.title.value = note.title;
+          noteForm.description.value = note.description;
+        } else console.log("Error to get note");
+      } catch (error) {
+        console.log(error);
+      }
+    })()
+  }
   noteForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const title = noteForm.title.value.trim();
@@ -78,13 +96,16 @@ if (noteForm) {
     }
     const formData = { title, description };
     try {
-      const response = await fetch("/api/notes", {
-        method: "POST",
+      const url = noteId ? `/api/notes/${noteId}` : "/api/notes";
+      const method = noteId ? "PATCH" : "POST";
+      const response = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
+        credentials: "same-origin",
       });
       if (response.ok) {
-        const note = await response.json();
+        // const note = await response.json();
         noteForm.reset();
         window.location.href = "/dashboard";
       } else {
@@ -148,12 +169,12 @@ if (changePswForm) {
   });
 }
 
-if(loginForm) {
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault()
-    const userName = loginForm.userName.value.trim()
-    const password = loginForm.password.value.trim()
-    const formData = {userName, password}
+if (loginForm) {
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const userName = loginForm.userName.value.trim();
+    const password = loginForm.password.value.trim();
+    const formData = { userName, password };
     try {
       const response = await fetch("/api/auth", {
         method: "POST",
@@ -165,45 +186,53 @@ if(loginForm) {
         window.location.href = "/dashboard";
       } else {
         const error = await response.json();
-        alert(`Error ${error.message}` || 'Inalid username or password');
+        alert(`Error ${error.message}` || "Inalid username or password");
       }
     } catch (error) {
       console.log(`Error: ${error}`);
     }
-  })
+  });
 }
 
-if(notesList) {
-  notesList.addEventListener('click', async (e) => {
+if (notesList) {
+  notesList.addEventListener("click", async (e) => {
     console.log(e.target);
-    const clicked = e.target
-    if(clicked.classList.contains('deleteNote')) {
-      const li =  clicked.closest('li')
-      const id = li.getAttribute('id')
+    const clicked = e.target;
+    if (clicked.classList.contains("deleteNote")) {
+      const li = clicked.closest("li");
+      const id = li.getAttribute("id");
       // console.log(id);
       try {
         const response = await fetch(`/api/notes/${id}`, {
-          method: 'DELETE',
-          credentials: 'same-origin'
-        })
+          method: "DELETE",
+          credentials: "same-origin",
+        });
         if (response.ok) window.location.href = "/dashboard";
       } catch (error) {
         console.log(error);
       }
     }
-    else if(clicked.classList.contains('editNote')){
-      const li =  clicked.closest('li')
-      const id = li.getAttribute('id')
+    if (clicked.classList.contains("editNote")) {
+      const li = clicked.closest("li");
+      const id = li.getAttribute("id");
       console.log(li);
-      window.location.href = `/create-note/${id}`
       // try {
       //   const response = await fetch(`/api/notes/${id}`, {
-      //     method: 'PATCH',
-
-      //   })
+      //     method: 'GET',
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify(formData),
+      //     credentials: 'same-origin'
+      // })
+      window.location.href = `/create-note/${id}`;
+      //  if (response.ok) {
+      //   const note = await response.json()
+      //   console.log(note);
+      //   noteForm.title = note.title,
+      //   noteForm.description = note.description
+      //  }
       // } catch (error) {
       //   console.log(error);
       // }
     }
-  })
+  });
 }

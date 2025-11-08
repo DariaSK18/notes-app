@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { request, response, Router } from "express";
 import {
   query,
   checkSchema,
@@ -14,13 +14,27 @@ import { Note } from "../mongoose/schemas/note.mjs";
 const router = Router();
 
 // --- find all user's notes ---
-router.get(
-  "/api/notes", async (request, response) => {
+router.get("/api/notes", async (request, response) => {
+  if (!request.user) return response.sendStatus(401);
+  const notessList = await Note.find({ userId: request.user._id });
+  return response.status(200).send(notessList ?? []);
+});
+
+router.get("/api/notes/:id", async (request, response) => {
+  try {
+    const {
+      params: { id },
+    } = request;
     if (!request.user) return response.sendStatus(401);
-    const notessList = await Note.find({ userId: request.user._id });
-    return response.status(200).send(notessList ?? []);
+    const note = await Note.findById({_id: id});
+    if (!note) return response.sendStatus(404);
+    console.log(note);
+    return response.status(200).send(note);
+  } catch (error) {
+    console.log(error);
+    return response.status(500).send({ msg: "Server Error" });
   }
-);
+});
 
 // --- adding note to database conected to user ---
 router.post(

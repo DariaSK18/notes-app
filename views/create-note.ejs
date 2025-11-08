@@ -6,7 +6,7 @@
       <div class="main__container">
         <div class="main__create-note">
           <h2>Create a Note</h2>
-          <form id="noteForm" action="/api/notes" method="POST">
+          <form id="noteForm" data-id="<%= id || '' %>" action="/api/notes" method="POST">
             <label>
               Title:
               <input type="text" name="title" placeholder="Title" required />
@@ -20,7 +20,7 @@
                 required
               ></textarea>
             </label>
-            <button type="submit" class="btn" >Add</button>
+            <button type="submit" class="btn" >Save</button>
           </form>
         </div>
       </div>

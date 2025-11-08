@@ -52,7 +52,7 @@ app.get("/register", isUser, (request, response) => {
 });
 app.get("/create-note", isAuth, isUser, (request, response) => {
   if (!request.user) return response.redirect("/login");
-  response.render("create-note", { title: "Create note" });
+  response.render("create-note", { title: "Create note", id: "" });
 });
 app.get("/create-note/:id", isAuth, isUser, (request, response) => {
   if (!request.user) return response.redirect("/login");
