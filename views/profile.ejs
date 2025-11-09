@@ -4,15 +4,25 @@
     <%- include('blocks/header') -%>
     <div class="main">
       <div class="main__container">
-        <h2><%= user.userName %>'s profile</h2>
-       <% if (notes.length === 0) { %>
-            <p>No notes yet. <a href="/create-note">Create your first one!</a></p>
-            <% } else { %>
-              <p>Username: <%= user.userName %></p>
-              <p>You have: <%= notes.length %> notes.</p>
-                <% } %>
-        <button><a href="/change-psw" class="profileBtn">Change password</a></button>
-        <button id="delete" class="profileBtn">Delete profile</button>
+        <div class="main__profile-content">
+          <h2><%= user.userName %>'s profile</h2>
+          <% if (notes.length === 0) { %>
+          <p>No notes yet. <a href="/create-note">Create your first one!</a></p>
+          <% } else { %>
+          <div class="main__profile-list">
+            <p>Username: <%= user.userName %></p>
+            <p>You have: <%= notes.length %> notes.</p>
+          </div>
+          <% } %>
+          <div class="main__profiles-btns">
+            <button>
+              <a href="/change-psw" class="profileBtn btn">Change password</a>
+            </button>
+            <button id="delete" class="profileBtn btn delete-profile">
+              Delete profile
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
