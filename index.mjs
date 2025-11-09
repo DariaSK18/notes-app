@@ -66,7 +66,7 @@ app.get("/dashboard", isAuth, isUser, async (request, response) => {
   if (!request.user) return response.redirect("/login");
   try {
     const notes = await Note.find({ userId: request.user._id }).lean();
-    console.log("notes", notes, request.user._id);
+    // console.log("notes", notes, request.user._id);
     response.render("dashboard", {
       title: "Dashboard",
       user: request.user,
@@ -77,9 +77,19 @@ app.get("/dashboard", isAuth, isUser, async (request, response) => {
     response.status(500).send("Server Error");
   }
 });
-app.get("/profile", isAuth, isUser, (request, response) => {
+app.get("/profile", isAuth, isUser, async (request, response) => {
   if (!request.user) return response.redirect("/login");
-  response.render("profile", { title: "Profile" });
+  try {
+    const notes = await Note.find({ userId: request.user._id }).lean();
+    response.render("profile", {
+      title: "Profile",
+      user: request.user,
+      notes: notes,
+    });
+  } catch (error) {
+    console.log(error);
+    response.status(500).send("Server Error");
+  }
 });
 app.get("/change-psw", isAuth, isUser, (request, response) => {
   if (!request.user) return response.redirect("/login");

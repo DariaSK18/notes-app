@@ -5,7 +5,7 @@
     <div class="main">
       <div class="main__container">
       <div class="main__cards-block">
-        <h2>Welocome, <%= user.userName %>!</h2>
+        <h2>Welcome, <%= user.userName %>!</h2>
         <!-- display list -->
          <div class="main__cards">
            <% if (notes.length === 0) { %>
@@ -16,6 +16,7 @@
                   <li id="<%= note._id %>">
                     <h4><%= note.title %></h4>
                     <p class="main__content"><%= note.description %></p>
+                    <!-- <p><%= note.createdAt %></p> -->
                     <div class="main_btns">
                       <button class="editNote card-btn">Edit</button>
                       <button class="deleteNote card-btn">Delete</button>
