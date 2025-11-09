@@ -45,6 +45,7 @@ app.use(passport.session());
 app.use(routes);
 
 app.get("/", isUser, (request, response) => {
+  if(request.user) return response.redirect("/dashboard")
   response.render("index", { title: "Home" });
 });
 app.get("/login", isUser, (request, response) => {

@@ -8,6 +8,7 @@
        <% if (notes.length === 0) { %>
             <p>No notes yet. <a href="/create-note">Create your first one!</a></p>
             <% } else { %>
+              <p>Username: <%= user.userName %></p>
               <p>You have: <%= notes.length %> notes.</p>
                 <% } %>
         <button><a href="/change-psw" class="profileBtn">Change password</a></button>
