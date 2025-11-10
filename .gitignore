@@ -1,5 +1,7 @@
 node_modules/
 .env
+package-lock.json
 dist/
 build/
 coments-test.mjs
+check.txt
