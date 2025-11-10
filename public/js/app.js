@@ -20,17 +20,17 @@ if (registerform) {
 
     if (!userName || !password || !confirmation) {
       // alert("All fields are required");
-      showMessage('All fields are required', 'error')
+      showMessage("All fields are required", "error");
       return;
     }
     if (password !== confirmation) {
       // alert("Password doesn't match your confirmation");
-      showMessage('Password doesn\'t match your confirmation', 'error')
+      showMessage("Password doesn't match your confirmation", "error");
       return;
     }
     if (password.length < 8) {
       // alert("Password doesn't match your confirmation");
-      showMessage('Password must be at least 8 characters', 'error')
+      showMessage("Password must be at least 8 characters", "error");
       return;
     }
 
@@ -48,8 +48,8 @@ if (registerform) {
         // console.log(user);
         registerform.reset();
         setTimeout(() => {
-        window.location.href = "/login";
-        },500)
+          window.location.href = "/login";
+        }, 300);
       } else {
         const error = await response.json();
         showMessage("Registration failed. Try again.", "error");
@@ -128,8 +128,8 @@ if (noteForm) {
         showMessage("Note saved successfully!", "success");
         noteForm.reset();
         setTimeout(() => {
-        window.location.href = "/dashboard";
-        }, 400)
+          window.location.href = "/dashboard";
+        }, 300);
       } else {
         const error = await response.json();
         showMessage("Failed to save note!", "error");
@@ -151,8 +151,8 @@ if (deleteBtn) {
       if (response.ok) {
         showMessage("Profile deleted successfully!", "success");
         setTimeout(() => {
-        window.location.href = "/register";
-        }, 1000)
+          window.location.href = "/register";
+        }, 300);
       } else showMessage("Failed to delete profile!", "error");
     } catch (error) {
       console.log(error);
@@ -176,7 +176,7 @@ if (changePswForm) {
     if (newPsw !== confirmPsw) {
       // alert("confirmd password doesnt match");
       showMessage("Passwords don't match!", "error");
-      return
+      return;
     }
     const formData = { currentPsw, password: newPsw };
     try {
@@ -191,8 +191,8 @@ if (changePswForm) {
         // alert("successfully changed");
         changePswForm.reset();
         setTimeout(() => {
-        window.location.href = "/dashboard";
-        }, 400)
+          window.location.href = "/dashboard";
+        }, 300);
       } else {
         const error = await response.json();
         showMessage("Failed to change password!", "error");
@@ -249,8 +249,8 @@ if (notesList) {
         if (response.ok) {
           showMessage("Note deleted successfully!", "success");
           setTimeout(() => {
-          window.location.href = "/dashboard"
-          }, 400)
+            window.location.href = "/dashboard";
+          }, 300);
         } else showMessage("Failed to delete note!", "error");
       } catch (error) {
         console.log(error);
@@ -292,6 +292,6 @@ function showMessage(text, type, duration = 3000) {
     message.classList.remove("show");
     setTimeout(() => {
       message.classList.add("hidden");
-    }, 400);
+    }, 300);
   }, duration);
 }

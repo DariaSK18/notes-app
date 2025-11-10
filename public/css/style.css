@@ -82,26 +82,29 @@ textarea::placeholder {
 
 .message {
     position: fixed;
-    top: 1rem;
+    top: -3rem;
     left: 50%;
     transform: translateX(-50%);
     min-width: 32rem;
-    padding: 1.7rem;
+    padding: 1.6rem;
     border-radius: 1rem;
     z-index: 500;
     opacity: 0;
     transition: all 0.4s ease-in-out;
+    text-align: center;
+    /* font-weight: 600; */
+    font-size: 1.2rem;
 }
 .show {
     opacity: 1;
-    transform: translateX(-50%);
+    top: 1rem;
 }
 .success {
-    background: #144a06;
+    background: #296719;
     /* color: whitesmoke; */
 }
 .error {
-    background: #f44336;
+    background: #dd3b3b;
     /* color: whitesmoke; */
 }
 .hidden {
