@@ -4,7 +4,7 @@ export const validationSchema = {
     notEmpty: { errorMessage: "Must be not Empty" },
     isLength: {
       options: {
-        min: 2,
+        min: 1,
         max: 10,
       },
       errorMessage: "Must be at least 2-10 chars",
@@ -15,10 +15,10 @@ export const validationSchema = {
     notEmpty: { errorMessage: "Must be not Empty" },
     isLength: {
       options: {
-        min: 2,
-        max: 500,
+        min: 1,
+        max: 1000,
       },
-      errorMessage: "Must be at least 2-500 chars",
+      errorMessage: "Must be at least 2-1000 chars",
     },
   },
 };
@@ -29,7 +29,7 @@ export const validationSchemaNotePatch = {
     notEmpty: { errorMessage: "Must be not Empty" },
     isLength: {
       options: {
-        min: 2,
+        min: 1,
         max: 10,
       },
       errorMessage: "Must be at least 2-10 chars",
@@ -41,10 +41,10 @@ export const validationSchemaNotePatch = {
     notEmpty: { errorMessage: "Must be not Empty" },
     isLength: {
       options: {
-        min: 2,
-        max: 500,
+        min: 1,
+        max: 1000,
       },
-      errorMessage: "Must be at least 2-500 chars",
+      errorMessage: "Must be at least 2-1000 chars",
     },
   },
 };

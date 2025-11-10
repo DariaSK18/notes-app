@@ -9,7 +9,7 @@
           <form id="noteForm" data-id="<%= id || '' %>" action="/api/notes" method="POST">
             <label>
               Title:
-              <input type="text" name="title" placeholder="Title" required />
+              <input type="text" name="title" placeholder="Title"  />
             </label>
             <label>
               Description:
@@ -17,7 +17,7 @@
                 type="text"
                 name="description"
                 placeholder="Description"
-                required
+                
               ></textarea>
             </label>
             <button type="submit" class="btn" >Save</button>

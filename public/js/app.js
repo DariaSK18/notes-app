@@ -19,11 +19,18 @@ if (registerform) {
     console.log(userName, password, confirmation);
 
     if (!userName || !password || !confirmation) {
-      alert("All fields are required");
+      // alert("All fields are required");
+      showMessage('All fields are required', 'error')
       return;
     }
     if (password !== confirmation) {
-      alert("Password doesn't match your confirmation");
+      // alert("Password doesn't match your confirmation");
+      showMessage('Password doesn\'t match your confirmation', 'error')
+      return;
+    }
+    if (password.length < 8) {
+      // alert("Password doesn't match your confirmation");
+      showMessage('Password must be at least 8 characters', 'error')
       return;
     }
 
@@ -35,13 +42,17 @@ if (registerform) {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        console.log(response.ok);
+        showMessage("Registration successful!", "success");
+        // console.log(response.ok);
         const user = await response.json();
-        console.log(user);
+        // console.log(user);
         registerform.reset();
+        setTimeout(() => {
         window.location.href = "/login";
+        },500)
       } else {
         const error = await response.json();
+        showMessage("Registration failed. Try again.", "error");
         throw new Error(`Error ${error}`);
       }
     } catch (error) {
@@ -58,7 +69,10 @@ if (logoutBtn) {
         credentials: "same-origin",
       });
       if (response.ok) {
+        // showMessage("Loged out!", "success");
+        // setTimeout(() => {
         window.location.href = "/login";
+        // },2000)
       }
     } catch (err) {
       console.log(err);
@@ -76,14 +90,18 @@ if (noteForm) {
           credentials: "same-origin",
         });
         if (response.ok) {
+          // showMessage("Note saved successfully!", "success");
           const note = await response.json();
           noteForm.title.value = note.title;
           noteForm.description.value = note.description;
-        } else console.log("Error to get note");
+        } else {
+          showMessage("Failed to get note!", "error");
+          console.log("Error to get note");
+        }
       } catch (error) {
         console.log(error);
       }
-    })()
+    })();
   }
   noteForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -91,7 +109,8 @@ if (noteForm) {
     const description = noteForm.description.value.trim();
 
     if (!title || !description) {
-      alert("all fields are required");
+      // alert("all fields are required");
+      showMessage("All fields are required!", "error");
       return;
     }
     const formData = { title, description };
@@ -106,10 +125,14 @@ if (noteForm) {
       });
       if (response.ok) {
         // const note = await response.json();
+        showMessage("Note saved successfully!", "success");
         noteForm.reset();
+        setTimeout(() => {
         window.location.href = "/dashboard";
+        }, 400)
       } else {
         const error = await response.json();
+        showMessage("Failed to save note!", "error");
         throw new Error(`Error ${error}`);
       }
     } catch (error) {
@@ -125,7 +148,12 @@ if (deleteBtn) {
         method: "DELETE",
         credentials: "same-origin",
       });
-      if (response.ok) window.location.href = "/register";
+      if (response.ok) {
+        showMessage("Profile deleted successfully!", "success");
+        setTimeout(() => {
+        window.location.href = "/register";
+        }, 1000)
+      } else showMessage("Failed to delete profile!", "error");
     } catch (error) {
       console.log(error);
     }
@@ -141,11 +169,14 @@ if (changePswForm) {
     const confirmPsw = changePswForm.confirmPsw.value.trim();
 
     if (!currentPsw || !newPsw || !confirmPsw) {
-      alert("All fields are required");
+      // alert("All fields are required");
+      showMessage("All fields are required!", "error");
       return;
     }
     if (newPsw !== confirmPsw) {
-      alert("confirmd password doesnt match");
+      // alert("confirmd password doesnt match");
+      showMessage("Passwords don't match!", "error");
+      return
     }
     const formData = { currentPsw, password: newPsw };
     try {
@@ -155,12 +186,16 @@ if (changePswForm) {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
+        showMessage("Password changed successfully!", "success");
         // const psw = await response.json();
         // alert("successfully changed");
         changePswForm.reset();
+        setTimeout(() => {
         window.location.href = "/dashboard";
+        }, 400)
       } else {
         const error = await response.json();
+        showMessage("Failed to change password!", "error");
         throw new Error(`Error ${error}`);
       }
     } catch (error) {
@@ -183,10 +218,14 @@ if (loginForm) {
       });
       if (response.ok) {
         loginForm.reset();
+        showMessage("Loged in successfully!", "success");
+        // setTimeout(() => {
         window.location.href = "/dashboard";
+        // }, 500)
       } else {
         const error = await response.json();
-        alert(`Error ${error.message}` || "Inalid username or password");
+        showMessage("Invalid username or password!", "error");
+        // alert(`Error ${error.message}` || "Inalid username or password");
       }
     } catch (error) {
       console.log(`Error: ${error}`);
@@ -207,7 +246,12 @@ if (notesList) {
           method: "DELETE",
           credentials: "same-origin",
         });
-        if (response.ok) window.location.href = "/dashboard";
+        if (response.ok) {
+          showMessage("Note deleted successfully!", "success");
+          setTimeout(() => {
+          window.location.href = "/dashboard"
+          }, 400)
+        } else showMessage("Failed to delete note!", "error");
       } catch (error) {
         console.log(error);
       }
@@ -237,4 +281,17 @@ if (notesList) {
   });
 }
 
+function showMessage(text, type, duration = 3000) {
+  const message = document.getElementById("message");
+  if (!message) return;
+  message.innerText = text;
+  message.className = `message show ${type}`;
+  message.classList.remove("hidden");
 
+  setTimeout(() => {
+    message.classList.remove("show");
+    setTimeout(() => {
+      message.classList.add("hidden");
+    }, 400);
+  }, duration);
+}
