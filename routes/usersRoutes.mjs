@@ -9,6 +9,7 @@ import { checkSchema, validationResult, matchedData } from "express-validator";
 import passport from "passport";
 import "../strategies/local-strategy.mjs";
 import { User } from "../mongoose/schemas/user.mjs";
+import { Note } from "../mongoose/schemas/note.mjs";
 import { hashPassword } from "../utils/helpers.mjs";
 import bcrypt from "bcrypt";
 
@@ -79,6 +80,7 @@ router.patch(
 router.delete("/api/users/me", async (request, response) => {
   if (!request.user) return response.sendStatus(401);
   try {
+    await Note.deleteMany({userId: request.user._id})
     await User.findByIdAndDelete(request.user._id);
     request.logout((err) => {
       if (err) return response.sendStatus(400);
@@ -86,6 +88,7 @@ router.delete("/api/users/me", async (request, response) => {
     });
   } catch (error) {
     console.log(`Error: ${error}`);
+    response.sendStatus(500)
   }
 });
 

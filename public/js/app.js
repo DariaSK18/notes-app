@@ -152,19 +152,22 @@ if (noteForm) {
 
 if (deleteBtn) {
   deleteBtn.addEventListener("click", async () => {
-    try {
-      const response = await fetch("/api/users/me", {
-        method: "DELETE",
-        credentials: "same-origin",
-      });
-      if (response.ok) {
-        showMessage("Profile deleted successfully!", "success");
-        setTimeout(() => {
-          window.location.href = "/register";
-        }, 300);
-      } else showMessage("Failed to delete profile!", "error");
-    } catch (error) {
-      console.log(error);
+    const confirmation = confirm("Delete profile?");
+    if (confirmation) {
+      try {
+        const response = await fetch("/api/users/me", {
+          method: "DELETE",
+          credentials: "same-origin",
+        });
+        if (response.ok) {
+          showMessage("Profile deleted successfully!", "success");
+          setTimeout(() => {
+            window.location.href = "/register";
+          }, 300);
+        } else showMessage("Failed to delete profile!", "error");
+      } catch (error) {
+        console.log(error);
+      }
     }
   });
 }
