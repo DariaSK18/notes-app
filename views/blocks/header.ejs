@@ -5,10 +5,17 @@
         <div class="header__title"><a href="/">Noted 𓂃✍︎</a></div>
       </section>
       <nav class="header__navigation">
+        <% if (!user) { %>
+        <ul>
+          <li><a href="../dashboard">Dashboard</a></li>
+          <!-- <li><a href="../create-note">Create Note</a></li> -->
+        </ul>
+        <% } else { %>
         <ul>
           <li><a href="../dashboard">Dashboard</a></li>
           <li><a href="../create-note">Create Note</a></li>
         </ul>
+        <% } %>
       </nav>
       <section class="header__user">
         <% if (!user) { %>
@@ -20,7 +27,7 @@
         </div>
         <% } else { %>
         <div class="header__logout">
-          <button id="logout" class="btn-logout" >Logout</button>
+          <button id="logout" class="btn-logout show">Logout</button>
         </div>
         <div class="header__profile">
           <a href="../profile">Profile</a>
