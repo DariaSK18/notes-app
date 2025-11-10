@@ -106,7 +106,7 @@ textarea::placeholder {
     top: 0;
 }
 .success {
-    background: #296719;
+    background: #2e2e2eed;
     /* color: whitesmoke; */
 }
 .error {
