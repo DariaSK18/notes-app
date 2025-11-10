@@ -98,8 +98,8 @@ app.get("/change-psw", isAuth, isUser, (request, response) => {
 });
 
 const PORT = process.env.PORT || 3000;
-const HOST = "localhost";
+const HOST = "0.0.0.0"
 
 app.listen(PORT, () => {
-  console.log(`Running on Port: ${PORT}\n http://${HOST}:${PORT}`);
+  console.log(`Running on Port: ${PORT}\nhttp://${HOST}:${PORT}`);
 });
