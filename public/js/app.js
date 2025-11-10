@@ -1,6 +1,8 @@
 const registerform = document.getElementById("registerForm");
 const noteForm = document.getElementById("noteForm");
-const logoutBtn = document.getElementById("logout");
+// const logoutBtn = document.getElementById("logout");
+// const logoutProfileBtn = document.getElementById("logout-profile");
+const logoutBtns = document.querySelectorAll(".logout");
 const deleteBtn = document.getElementById("delete");
 const changePswForm = document.getElementById("changePswForm");
 const loginForm = document.getElementById("loginForm");
@@ -61,24 +63,31 @@ if (registerform) {
   });
 }
 
-if (logoutBtn) {
-  logoutBtn.addEventListener("click", async () => {
-    try {
-      const response = await fetch("/api/auth/logout", {
-        method: "POST",
-        credentials: "same-origin",
-      });
-      if (response.ok) {
-        // showMessage("Loged out!", "success");
-        // setTimeout(() => {
-        window.location.href = "/login";
-        // },2000)
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  });
-}
+// if (logoutBtn) {
+//   logoutBtn.addEventListener("click", async () => {
+//     try {
+//       const response = await fetch("/api/auth/logout", {
+//         method: "POST",
+//         credentials: "same-origin",
+//       });
+//       if (response.ok) {
+//         // showMessage("Loged out!", "success");
+//         // setTimeout(() => {
+//         window.location.href = "/login";
+//         // },2000)
+//       }
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   });
+// }
+// if (logoutProfileBtn) {
+//   logoutProfileBtn.addEventListener("click", async () => {});
+// }
+logoutBtns.forEach((btn) => {
+  // console.log(btn);
+  if (btn) btn.addEventListener("click", handleLogout);
+});
 
 if (noteForm) {
   const noteId = noteForm.dataset.id;
@@ -294,4 +303,18 @@ function showMessage(text, type, duration = 3000) {
       message.classList.add("hidden");
     }, 300);
   }, duration);
+}
+
+async function handleLogout() {
+  try {
+    const response = await fetch("/api/auth/logout", {
+      method: "POST",
+      credentials: "same-origin",
+    });
+    if (response.ok) {
+      window.location.href = "/login";
+    }
+  } catch (err) {
+    console.log(err);
+  }
 }

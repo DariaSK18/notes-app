@@ -50,6 +50,7 @@
     border-radius: 0.5rem;
     padding: 0.4rem 0.8rem;
     background: hsl(0, 0%, 100%, 0.1);
+    cursor: pointer;
 }
 @media (max-width: 40rem) {
     .header__navigation ul {

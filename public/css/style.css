@@ -57,6 +57,7 @@ html, body {
     max-width: 60%;
     align-self: center;
     text-align: center;
+    cursor: pointer;
 }
 h2 {
     font-size: 2rem;
