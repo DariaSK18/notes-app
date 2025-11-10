@@ -10,12 +10,17 @@
 
 /* Main styles */
 
-body {
+html, body {
     font-family: "Nunito", "Roboto";
     font-size: 1rem;
     /* background: #2b2b2b; */
-    background: #2a7b9b;
-    background: linear-gradient(35deg, rgba(42, 123, 155, 1) 18%, rgba(35, 135, 77, 1) 56%, rgba(6, 120, 4, 1) 100%);
+    /* background: #2a7b9b; */
+    /* background: linear-gradient(35deg, rgba(42, 123, 155, 1) 18%, rgba(35, 135, 77, 1) 56%, rgba(6, 120, 4, 1) 100%); */
+     /* background: linear-gradient(35deg, rgb(31, 106, 135) 18%, rgb(27, 126, 68) 56%, rgb(4, 87, 2) 100%);  */
+ background: linear-gradient(35deg, rgb(22, 89, 116) 18%, rgb(24, 117, 63) 56%, rgb(6, 75, 5) 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
     color: whitesmoke;
     text-shadow: 0 0 8px rgba(46, 46, 46, 0.7);
 }
@@ -86,25 +91,25 @@ textarea::placeholder {
     left: 50%;
     transform: translateX(-50%);
     min-width: 32rem;
-    padding: 1.6rem;
-    border-radius: 1rem;
+    padding: 1.2rem;
+    border-radius: 0 0 1rem 1rem;
     z-index: 500;
     opacity: 0;
     transition: all 0.4s ease-in-out;
     text-align: center;
-    /* font-weight: 600; */
-    font-size: 1.2rem;
+    font-weight: 600;
+    font-size: 1.3rem;
 }
 .show {
     opacity: 1;
-    top: 1rem;
+    top: 0;
 }
 .success {
     background: #296719;
     /* color: whitesmoke; */
 }
 .error {
-    background: #dd3b3b;
+    background: #ed3d3d;
     /* color: whitesmoke; */
 }
 .hidden {
